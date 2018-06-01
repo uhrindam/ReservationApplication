@@ -22,9 +22,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", new { Controller = "Home", Area = "Common" })</li>
-                    <li>@Html.ActionLink("Manage appointments", "Index", new { Controller = "ManageAppointments", Area = "Admin" })</li>
                     <li>@Html.ActionLink("Book an appointment", "Index", new { Controller = "BookAnAppointment", Area = "User" })</li>
                     <li>@Html.ActionLink("Login", "Index", new { Controller = "Login", Area = "Security" })</li>
+                    <li>@Html.ActionLink("Manage appointments", "Index", new { Controller = "ManageAppointments", Area = "Admin" })</li>
+                    <li>@Html.ActionLink("List users", "Index", new { Controller = "ListUsers", Area = "Admin" })</li>
                 </ul>
             </div>
         </div>

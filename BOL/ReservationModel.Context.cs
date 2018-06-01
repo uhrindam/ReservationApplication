@@ -13,10 +13,10 @@ namespace BOL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ReservationAPPdbEntities : DbContext
+    public partial class ReservationDBEntities : DbContext
     {
-        public ReservationAPPdbEntities()
-            : base("name=ReservationAPPdbEntities")
+        public ReservationDBEntities()
+            : base("name=ReservationDBEntities")
         {
         }
     

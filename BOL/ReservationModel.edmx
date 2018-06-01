@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ReservationAPPdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ReservationDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="APPOINTMENTS">
           <Key>
             <PropertyRef Name="ID" />
@@ -61,7 +61,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ReservationAPPdbModelStoreContainer">
+        <EntityContainer Name="ReservationDBModelStoreContainer">
           <EntitySet Name="APPOINTMENTS" EntityType="Self.APPOINTMENTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CATEGORIES" EntityType="Self.CATEGORIES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
@@ -78,7 +78,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ReservationAPPdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ReservationDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="APPOINTMENTS">
           <Key>
             <PropertyRef Name="ID" />
@@ -139,7 +139,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ReservationAPPdbEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ReservationDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="APPOINTMENTS" EntityType="Self.APPOINTMENTS" />
           <EntitySet Name="CATEGORIES" EntityType="Self.CATEGORIES" />
           <EntitySet Name="USERS" EntityType="Self.USERS" />
@@ -157,9 +157,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ReservationAPPdbModelStoreContainer" CdmEntityContainer="ReservationAPPdbEntities">
+        <EntityContainerMapping StorageEntityContainer="ReservationDBModelStoreContainer" CdmEntityContainer="ReservationDBEntities">
           <EntitySetMapping Name="APPOINTMENTS">
-            <EntityTypeMapping TypeName="ReservationAPPdbModel.APPOINTMENTS">
+            <EntityTypeMapping TypeName="ReservationDBModel.APPOINTMENTS">
               <MappingFragment StoreEntitySet="APPOINTMENTS">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NickName" ColumnName="NickName" />
@@ -173,7 +173,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CATEGORIES">
-            <EntityTypeMapping TypeName="ReservationAPPdbModel.CATEGORIES">
+            <EntityTypeMapping TypeName="ReservationDBModel.CATEGORIES">
               <MappingFragment StoreEntitySet="CATEGORIES">
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -182,7 +182,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USERS">
-            <EntityTypeMapping TypeName="ReservationAPPdbModel.USERS">
+            <EntityTypeMapping TypeName="ReservationDBModel.USERS">
               <MappingFragment StoreEntitySet="USERS">
                 <ScalarProperty Name="NickName" ColumnName="NickName" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />

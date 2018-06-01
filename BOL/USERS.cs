@@ -23,7 +23,6 @@ namespace BOL
         public string NickName { get; set; }
         public string FullName { get; set; }
         public string EmailAddress { get; set; }
-        //SHA-1 encryption
         public string Passwd { get; set; }
         public Nullable<System.DateTime> RegistrationDate { get; set; }
         public Nullable<bool> IsAdmin { get; set; }

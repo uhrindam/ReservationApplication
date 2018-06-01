@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="54ae53997c6a4158b566c1a597c73451" Name="Diagram1">
-        <EntityTypeShape EntityType="ReservationAPPdbModel.APPOINTMENTS" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ReservationAPPdbModel.CATEGORIES" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ReservationAPPdbModel.USERS" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <AssociationConnector Association="ReservationAPPdbModel.FK_APP_CategoryName" ManuallyRouted="false" />
-        <AssociationConnector Association="ReservationAPPdbModel.FK_APP_NickName" ManuallyRouted="false" />
+      <Diagram DiagramId="d37b0f5fec84454c8f161a5e6fa2f376" Name="Diagram1">
+        <EntityTypeShape EntityType="ReservationDBModel.APPOINTMENTS" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationDBModel.CATEGORIES" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationDBModel.USERS" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="ReservationDBModel.FK_APP_CategoryName" ManuallyRouted="false" />
+        <AssociationConnector Association="ReservationDBModel.FK_APP_NickName" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

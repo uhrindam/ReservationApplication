@@ -106,13 +106,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReservationAPPdb.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ReservationAPPdb_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>ReservationAPPdb.mdf</DependentUpon>
-    </Content>
     <Content Include="ReservationModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReservationModel.Context.cs</LastGenOutput>
@@ -123,6 +116,7 @@
       <DependentUpon>ReservationModel.edmx</DependentUpon>
       <LastGenOutput>ReservationModel.cs</LastGenOutput>
     </Content>
+    <Content Include="SQL script\script.sql" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ReservationModel.edmx">
@@ -136,9 +130,6 @@
     <None Include="ReservationModel.edmx.diagram">
       <DependentUpon>ReservationModel.edmx</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SQL script\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
