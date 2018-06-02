@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentBL.cs" />
+    <Compile Include="CategoryBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserBS.cs" />
+    <Compile Include="UserBL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BOL\BOL.csproj">

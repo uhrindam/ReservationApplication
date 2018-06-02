@@ -11,7 +11,7 @@ namespace BOL
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class USERS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,6 @@ namespace BOL
         {
             this.APPOINTMENTS = new HashSet<APPOINTMENTS>();
         }
-    
         public string NickName { get; set; }
         public string FullName { get; set; }
         public string EmailAddress { get; set; }

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<BOL.CATEGORIES>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function ConfirmDelete() {
+        return confirm('Biztos hogy ki szeretnéd törölni a kategóriát?');
+    }
+</script>
+
+<h2>Manage categories</h2>
+
+@if (TempData["Msg"] != null)
+{
+    <h3>@TempData["Msg"].ToString()</h3>
+}
+
+<p>
+    @Html.ActionLink("Hozzáadás", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "Price", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("A folyamat hossza percben", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ProcessLengthInMunites", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProcessLengthInMunites)
+            </td>
+            <td>
+                @Html.ActionLink("Szerkesztés", "Edit", new { id = item.CategoryName }) |
+                @Html.ActionLink("Törlés", "Delete", new { id = item.CategoryName }, new { onclick= "return ConfirmDelete()" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{
+    double TotalPages = ViewBag.TotalPages;
+}
+
+@for (int i = 1; i <= TotalPages; i++)
+{
+    if (i == ViewBag.Page)
+    {
+        <b>@Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })</b>
+    }
+    else
+    {
+        @Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })
+    }
+}

@@ -7,17 +7,17 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
-    public class ListUsersController : Controller
+    public class ManageCategoriesController : Controller
     {
         const double DATAPERPAGE = 10;
-        private UserBL objBS;
+        private CategoryBL objBS;
 
-        public ListUsersController()
+        public ManageCategoriesController()
         {
-            objBS = new UserBL();
+            objBS = new CategoryBL();
         }
 
-        // GET: Admin/ListUsers
+        // GET: Admin/ManageCategories
         public ActionResult Index(string SortOrder, string SortBy, string Page)
         {
             ViewBag.SortOrder = SortOrder;
@@ -27,60 +27,47 @@ namespace ReservationApplication.Areas.Admin.Controllers
             #region Sort
             switch (SortBy)
             {
-                case "NickName":
+                case "CategoryName":
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.NickName).ToList();
+                            users = users.OrderBy(x => x.CategoryName).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.NickName).ToList();
+                            users = users.OrderByDescending(x => x.CategoryName).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
-                case "FullName":
+                case "Price":
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.FullName).ToList();
+                            users = users.OrderBy(x => x.Price).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.FullName).ToList();
+                            users = users.OrderByDescending(x => x.Price).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
-                case "EmailAddress":
+                case "ProcessLengthInMunites":
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.EmailAddress).ToList();
+                            users = users.OrderBy(x => x.ProcessLengthInMunites).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.EmailAddress).ToList();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case "RegistrationDate":
-                    switch (SortOrder)
-                    {
-                        case "Asc":
-                            users = users.OrderBy(x => x.RegistrationDate).ToList();
-                            break;
-                        case "Desc":
-                            users = users.OrderByDescending(x => x.RegistrationDate).ToList();
+                            users = users.OrderByDescending(x => x.ProcessLengthInMunites).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
                 default:
-                    users = users.OrderBy(x => x.NickName).ToList();
+                    users = users.OrderBy(x => x.CategoryName).ToList();
                     break;
             }
             #endregion
@@ -89,9 +76,25 @@ namespace ReservationApplication.Areas.Admin.Controllers
             int page = int.Parse(Page == null ? "1" : Page);
             ViewBag.Page = page;
 
-            users = users.Skip((page -1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE);
+            users = users.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE);
 
             return View(users);
+        }
+
+        public ActionResult Delete(string id)
+        {
+            try
+            {
+
+                objBS.Delete(id);
+                TempData["Msg"] = "A törlés sikeres";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["Msg"] = "A törlés sikertelen";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

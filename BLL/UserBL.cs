@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class UserBS
+    public class UserBL
     {
         private UserDB objDB;
 
-        public UserBS()
+        public UserBL()
         {
             objDB = new UserDB();
         }
