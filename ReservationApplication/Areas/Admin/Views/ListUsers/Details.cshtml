@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BOL.APPOINTMENTS>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var m = TempData["userappointments"] as List<BOL.APPOINTMENTS>;
+}
+
+<h2>@m.First().USERS.FullName (@m.First().NickName) időpontjai</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Kategória név", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+        </th>
+        <th>
+            @Html.ActionLink("Foglalás dátuma", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+        </th>
+        <th>
+            @Html.ActionLink("Foglaláskor aktuális ár", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+        </th>
+        <th>
+            @Html.ActionLink("Kezdő időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+        </th>
+        <th>
+            @Html.ActionLink("Befejező időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in m)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingPont)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndingPoint)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{
+    double TotalPages = ViewBag.TotalPages;
+}
+
+@for (int i = 1; i <= TotalPages; i++)
+{
+    if (i == ViewBag.Page)
+    {
+        <b>@Html.ActionLink(i.ToString() + " ", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i, ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })</b>
+    }
+    else
+    {
+        @Html.ActionLink(i.ToString() + " ", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i, ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+    }
+}
+
+
+@Html.ActionLink("Vissza az időpontokhoz", "Back", new { ViewBag.ISortOrder, ViewBag.ISortBy, ViewBag.IPage })

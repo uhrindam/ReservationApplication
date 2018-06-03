@@ -96,5 +96,10 @@ namespace ReservationApplication.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult Edit(string id)
+        {
+            return null;
+        }
     }
 }

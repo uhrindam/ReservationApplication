@@ -39,6 +39,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.RegistrationDate)
             </td>
+            <td>
+                @if (item.APPOINTMENTS.Count > 0)
+                {
+                    @Html.ActionLink("Időpontok megtekintése", "Details", new { NickName = item.NickName, ISortOrder = ViewBag.SortOrder, ISortBy = ViewBag.SortBy, IPage = ViewBag.Page })
+                }
+                else
+                {
+                    @Html.Label("Időpontok megtekintése", new { title = "A felhasználó nem rendelkezik még időponttal." })
+                }
+            </td>
         </tr>
     }
 

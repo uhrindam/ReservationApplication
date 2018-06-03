@@ -24,7 +24,7 @@ namespace ReservationApplication.Areas.Security
         }
 
         [HttpPost]
-        public ActionResult Create(USERS user)
+        public ActionResult Create(USERSvalidation user)
         {
             try
             {
