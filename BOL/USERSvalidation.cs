@@ -8,9 +8,32 @@ using System.Web.ModelBinding;
 
 namespace BOL
 {
+    public class UniqueEmailAttribute: ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            ReservationDBEntities db = new ReservationDBEntities();
+            if (db.USERS.Where(x => x.EmailAddress == value.ToString()).Count() != 0)
+                return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
+            return ValidationResult.Success;
+        }
+    }
+
+    public class UniqueNickNameAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            ReservationDBEntities db = new ReservationDBEntities();
+            if (db.USERS.Where(x => x.NickName == value.ToString()).Count() != 0)
+                return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
+            return ValidationResult.Success;
+        }
+    }
+
     public class USERSvalidation
     {
         [Display(Name = "Felhasználónév")]
+        [UniqueEmail]
         [Required(ErrorMessage = "A felhasználó név mező kitöltése kötelező.")]
         public string NickName { get; set; }
 
@@ -19,6 +42,7 @@ namespace BOL
         public string FullName { get; set; }
 
         [Display(Name = "Emailcím")]
+        [UniqueEmail]
         [Required]
         [EmailAddress(ErrorMessage = "Érvénytelen emailcím.")]
         public string EmailAddress { get; set; }
@@ -32,10 +56,4 @@ namespace BOL
         [Compare("Passwd", ErrorMessage = "A megerősítő jelszónak meg kell egyeznie a jelszóval.")]
         public string PasswdConfirm { get; set; }
     }
-
-    //[MetadataType(typeof(USERSvalidation))]
-    //public partial class USERS
-    //{
-
-    //}
 }

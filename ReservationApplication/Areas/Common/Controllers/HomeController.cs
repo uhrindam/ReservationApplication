@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Common.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         // GET: Common/Home
