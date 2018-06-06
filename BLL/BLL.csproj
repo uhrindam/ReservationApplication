@@ -45,7 +45,8 @@
     <Compile Include="AppointmentBL.cs" />
     <Compile Include="CategoryBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityBL.cs" />
+    <Compile Include="ReservationMembershipProvider.cs" />
+    <Compile Include="ReservationRoleProvider.cs" />
     <Compile Include="UserBL.cs" />
   </ItemGroup>
   <ItemGroup>

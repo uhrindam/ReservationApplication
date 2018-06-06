@@ -33,5 +33,11 @@ namespace ReservationApplication.Areas.Security.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home", new { area = "Common"});
+        }
     }
 }

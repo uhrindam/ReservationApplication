@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "A")]
     public class ManageCategoriesController : Controller
     {
         const double DATAPERPAGE = 10;

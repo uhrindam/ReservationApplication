@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "A")]
     public class ListUsersController : Controller
     {
         const double DATAPERPAGE = 10;

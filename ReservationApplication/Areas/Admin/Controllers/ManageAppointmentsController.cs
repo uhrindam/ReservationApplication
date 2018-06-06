@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "A")]
     public class ManageAppointmentsController : Controller
     {
         // GET: Admin/ManageAppointments
