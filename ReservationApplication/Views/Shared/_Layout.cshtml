@@ -9,37 +9,48 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <div class="navbar-header">
                 @Html.ActionLink("Reservation Application", "Index", "Home", new { Area = "Common" }, new { @class = "navbar-brand" })
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" style="">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-            <div class="collapse navbar-collapse" id="navbarColor01">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav mr-auto">
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("U") || User.IsInRole("A"))
                         {
-                            <li class="active">@Html.ActionLink("Időpont foglalása", "Index", new { Controller = "BookAnAppointment", Area = "User" })</li>
-                            <li>@Html.ActionLink("Felhasználói adatok szerkesztése", "Index", new { Controller = "ChangeUserSettings", Area = "User" })</li>
+                            <li class="nav-link"><b>@Html.ActionLink("Időpont foglalása", "Index", new { Controller = "BookAnAppointment", Area = "User" })</b></li>
                         }
 
                         if (User.IsInRole("A"))
                         {
-                            <li>@Html.ActionLink("Időpontok kezelése", "Index", new { Controller = "ManageAppointments", Area = "Admin" })</li>
-                            <li>@Html.ActionLink("Kategóriák kezelése", "Index", new { Controller = "ManageCategories", Area = "Admin" })</li>
-                            <li>@Html.ActionLink("Felhasználók listázása", "Index", new { Controller = "ListUsers", Area = "Admin" })</li>
+                            <li class="nav-link"><b>@Html.ActionLink("Időpontok kezelése", "Index", new { Controller = "ManageAppointments", Area = "Admin" })</b></li>
+                            <li class="nav-link"><b>@Html.ActionLink("Kategóriák kezelése", "Index", new { Controller = "ManageCategories", Area = "Admin" })</b></li>
+                            <li class="nav-link"><b>@Html.ActionLink("Felhasználók listázása", "Index", new { Controller = "ListUsers", Area = "Admin" })</b></li>
                         }
-                        <li>@Html.ActionLink("Kijelentkezés", "SignOut", new { Controller = "Login", Area = "Security" })</li>
-                        <li><a href="#"> Üdvözöllek @User.Identity.Name!</a></li>
+                    }
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><b>Profilom</b></a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                                <a class="dropdown-item" href="@Url.Action("Index", new { Controller = "ChangeUserSettings", Area = "User" })">Felhasználói adatok szerkesztése</a>
+                                <a class="dropdown-item" href="@Url.Action("SignOut", new { Controller = "Login", Area = "Security" })">Kijelentkezés</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item">@User.Identity.Name</a>
+                            </div>
+                        </li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Bejelentkezés", "Index", new { Controller = "Login", Area = "Security" })</li>
-                        <li>@Html.ActionLink("Regisztráció", "Index", new { Controller = "Registration", Area = "Security" })</li>
+                        <li class="nav-link"><b>@Html.ActionLink("Bejelentkezés", "Index", new { Controller = "Login", Area = "Security" })</b></li>
+                        <li class="nav-link"><b>@Html.ActionLink("Regisztráció", "Index", new { Controller = "Registration", Area = "Security" })</b></li>
                     }
                 </ul>
             </div>

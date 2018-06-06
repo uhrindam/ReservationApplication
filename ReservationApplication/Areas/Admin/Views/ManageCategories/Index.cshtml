@@ -11,7 +11,7 @@
     }
 </script>
 
-<h2>Manage categories</h2>
+<h2>Kategóriák kezeléses</h2>
 
 @if (TempData["Msg"] != null)
 {
@@ -21,8 +21,8 @@
 <p>
     @Html.ActionLink("Hozzáadás", "Create")
 </p>
-<table class="table">
-    <tr>
+<table class="table table-hover">
+    <tr class="table-active">
         <th>
             @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
         </th>
@@ -32,7 +32,6 @@
         <th>
             @Html.ActionLink("A folyamat hossza percben", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ProcessLengthInMunites", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -60,14 +59,18 @@
     double TotalPages = ViewBag.TotalPages;
 }
 
-@for (int i = 1; i <= TotalPages; i++)
-{
-    if (i == ViewBag.Page)
+<ul class="pagination pagination-lg">
+    @for (int i = 1; i <= TotalPages; i++)
     {
-        <b>@Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })</b>
+        if (i == ViewBag.Page)
+        {
+            <li class="page-item active">
+                <a class="page-link" href="@Url.Action("Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i }))">@(i.ToString() + " ")</a>
+            </li>
+        }
+        else
+        {
+            @Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })
+        }
     }
-    else
-    {
-        @Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })
-    }
-}
+</ul>

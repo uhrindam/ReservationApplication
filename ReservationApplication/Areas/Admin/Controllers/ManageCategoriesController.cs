@@ -102,5 +102,10 @@ namespace ReservationApplication.Areas.Admin.Controllers
         {
             return null;
         }
+
+        public ActionResult Create(string id)
+        {
+            return null;
+        }
     }
 }
