@@ -1,7 +1,138 @@
-﻿
+﻿@model IEnumerable<BOL.APPOINTMENTS>
+
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Időpontok kezelése</h2>
+
+<div class="card-columns">
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Hétfő</div>
+        <div class="card-body">
+            <table class="table table-hover">
+                @foreach (var item in Model)
+                {
+                    <tr class="table-active">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.USERS.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartingPont)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Kedd</div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Szerda</div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Csütörtök</div>
+        <div class="card-body">
+
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Péntek</div>
+        <div class="card-body">
+
+        </div>
+    </div>
+</div>
+
+<br />
+
+<table class="table table-hover">
+    <tr class="table-active">
+        <th>
+            @Html.ActionLink("Azonosító", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ID", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "FullName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Foglalás dátuma", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USERS.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingPont)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndingPoint)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{
+    double TotalPages = ViewBag.TotalPages;
 }
 
-<h2>Index</h2>
-
+<ul class="pagination pagination-lg">
+    @for (int i = 1; i <= TotalPages; i++)
+    {
+        if (i == ViewBag.Page)
+        {
+            <li class="page-item active">
+                <a class="page-link active" href="@Url.Action( "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i })">@(i.ToString() + " ")</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item active">
+                <a class="page-link" href="@Url.Action( "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i})">@(i.ToString() + " ")</a>
+            </li>
+        }
+    }
+</ul>

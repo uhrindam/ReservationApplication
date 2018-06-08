@@ -5,57 +5,30 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ReservationApplication.Areas.Admin.Controllers
+namespace ReservationApplication.Areas.User.Controllers
 {
-    [Authorize(Roles = "A")]
-    public class ManageAppointmentsController : Controller
+    [Authorize(Roles = "A, U")]
+    public class AppointmentsHistoryController : Controller
     {
         const double DATAPERPAGE = 10;
-        private AppointmentBL objBS;
+        private UserBL objBS;
 
-        public ManageAppointmentsController()
+        public AppointmentsHistoryController()
         {
-            objBS = new AppointmentBL();
+            objBS = new UserBL();
         }
 
-        // GET: Admin/ManageAppointments
+        // GET: User/AppointmentsHistory
         public ActionResult Index(string SortOrder, string SortBy, string Page)
         {
-
             ViewBag.SortOrder = SortOrder;
             ViewBag.SortBy = SortBy;
 
-            var appointments = objBS.GetAll().ToList();
+            var appointments = objBS.GetAll().Where(x => x.NickName == User.Identity.Name).First().APPOINTMENTS.ToList();
 
             #region Sort
             switch (SortBy)
             {
-                case "ID":
-                    switch (SortOrder)
-                    {
-                        case "Asc":
-                            appointments = appointments.OrderBy(x => x.ID).ToList();
-                            break;
-                        case "Desc":
-                            appointments = appointments.OrderByDescending(x => x.ID).ToList();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case "FullName":
-                    switch (SortOrder)
-                    {
-                        case "Asc":
-                            appointments = appointments.OrderBy(x => x.USERS.FullName).ToList();
-                            break;
-                        case "Desc":
-                            appointments = appointments.OrderByDescending(x => x.USERS.FullName).ToList();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 case "CategoryName":
                     switch (SortOrder)
                     {
@@ -134,7 +107,8 @@ namespace ReservationApplication.Areas.Admin.Controllers
 
             appointments = appointments.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE).ToList();
 
-            return View(appointments);
+            TempData["userappointments"] = appointments;
+            return View();
         }
     }
 }
