@@ -25,16 +25,16 @@ namespace BOL
         {
             ReservationDBEntities db = new ReservationDBEntities();
             if (db.USERS.Where(x => x.NickName == value.ToString()).Count() != 0)
-                return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
+                return new ValidationResult("A felhasználónévnek egyedinek kell lennie!");
             return ValidationResult.Success;
         }
     }
 
-    public class USERSvalidation
+    public class UserRegistration
     {
         [Display(Name = "Felhasználónév")]
         [UniqueEmail]
-        [Required(ErrorMessage = "A felhasználó név mező kitöltése kötelező.")]
+        [Required]
         public string NickName { get; set; }
 
         [Display(Name = "Teljes név")]

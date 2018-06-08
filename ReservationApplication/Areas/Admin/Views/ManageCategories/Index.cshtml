@@ -5,42 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-    function ConfirmDelete() {
-        return confirm('Biztos hogy ki szeretnéd törölni a kategóriát?');
-    }
-</script>
-
-<div class="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <h2>Kategóriák kezeléses</h2>
 
-@if (TempData["Msg"] != null)
+@if (TempData["MsgU"] != null)
 {
-    <h3>@TempData["Msg"].ToString()</h3>
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @TempData["MsgU"].ToString()
+    </div>
+}
+
+@if (TempData["MsgS"] != null)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @TempData["MsgS"].ToString()
+    </div>
+}
+
+@if (ViewBag.afterCreateCageory != null)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        @ViewBag.afterCreateCageory
+    </div>
 }
 
 <p>
-    @Html.ActionLink("Hozzáadás", "Create")
+    <button type="button" class="btn btn-outline-success" onclick="location.href='@Url.Action("Create")'">Hozzáadás</button>
 </p>
+
 <table class="table table-hover">
     <tr class="table-active">
         <th>
@@ -51,6 +45,8 @@
         </th>
         <th>
             @Html.ActionLink("A folyamat hossza percben", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ProcessLengthInMunites", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
         </th>
     </tr>
 
@@ -67,13 +63,53 @@
                 @Html.DisplayFor(modelItem => item.ProcessLengthInMunites)
             </td>
             <td>
-                @Html.ActionLink("Szerkesztés", "Edit", new { id = item.CategoryName }) |
-                @Html.ActionLink("Törlés", "Delete", new { id = item.CategoryName }, new { onclick = "return ConfirmDelete()" })
+                <button type="button" class="btn btn-outline-success" onclick="location.href='@Url.Action("Edit",new { id = item.CategoryName })'">Szerkesztés</button> |
+
+                @*@Html.ActionLink("Szerkesztés", "Edit", new { id = item.CategoryName }) |*@
+
+                <button type="button" class="btn btn-outline-success" data-record-id="@item.CategoryName" data-toggle="modal" data-target="#confirm-delete">Törlés</button>
+
+                @*@Html.ActionLink("Törlés", "Delete", new { id = item.CategoryName }, new { onclick = "return ConfirmDelete()" })*@
             </td>
         </tr>
     }
-
 </table>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Törlés megerősítése</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Bezárás"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Biztos hogy ki szeretnéd törölni a kategóriát?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Mégsem</button>
+                <button type="button" class="btn btn-outline-success" onclick="location.href='@Url.Action("Delete",new { id =  "" })'">Törlés</button>
+                @*<button type="button" class="btn btn-outline-success btn-ok">Törlés</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#confirm-delete').on('click', '.btn-ok', function (e) {
+
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('recordId');
+
+        $modalDiv.addClass('loading');
+        $.post('/Delete/' + id).then(function () {
+            $modalDiv.modal('hide').removeClass('loading');
+        });
+    });
+    $('#confirm-delete').on('show.bs.modal', function (e) {
+        var data = $(e.relatedTarget).data();
+        $('.btn-ok', this).data('recordId', data.recordId);
+    });
+</script>
 
 @{
     double TotalPages = ViewBag.TotalPages;
@@ -85,12 +121,14 @@
         if (i == ViewBag.Page)
         {
             <li class="page-item active">
-                <a class="page-link" href="@Url.Action("Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })">@(i.ToString() + " ")</a>
+                <a class="page-link" href="@Url.Action("Index", new { SortOrder=(ViewBag.SortOrder ==null ? "Asc" : ViewBag.SortOrder), SortBy=(ViewBag.SortBy ==null ? "CategoryName" : ViewBag.SortBy), Page=i })">@(i.ToString() + " ")</a>
             </li>
         }
         else
         {
-            @Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })
+            <li class="page-link">
+                @Html.ActionLink(i.ToString() + " ", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "CategoryName" : ViewBag.SortBy), Page = i })
+            </li>
         }
     }
 </ul>

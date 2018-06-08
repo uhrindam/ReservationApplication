@@ -1,4 +1,36 @@
-﻿
+﻿@model IEnumerable<BOL.APPOINTMENTS>
+@using DayPilot.Web.Mvc;
+@using DayPilot.Web.Mvc.Enums
+@using DayPilot.Web.Mvc.Events.Scheduler;
+
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/Scripts/DayPilot/daypilot-all.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/DayPilot/recurrence.js"></script>
+<link href="~/Scripts/DayPilot/scheduler_white.css" rel="stylesheet" />
+<link href="~/Scripts/DayPilot/areas.css" rel="stylesheet" />
+
+@Html.DayPilotScheduler("dps", new DayPilotSchedulerConfig
+{
+    BackendUrl = Url.Content("~/BookAnAppointment/Backend"),
+    EventResizeHandling = EventResizeHandlingType.CallBack,
+    EventMoveHandling = EventMoveHandlingType.CallBack,
+    CellGroupBy = GroupBy.Week,
+    CellDuration = 1440,
+    Scale = TimeScale.Day,
+    Days = 7,
+    StartDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day),
+    EventClickHandling = EventClickHandlingType.JavaScript,
+    EventClickJavaScript = "ask(e);",
+    TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
+    TimeRangeSelectedJavaScript = "create(start, end, resource)",
+
+
+    CellWidth = 150,
+    EventHeight = 60
+})
+

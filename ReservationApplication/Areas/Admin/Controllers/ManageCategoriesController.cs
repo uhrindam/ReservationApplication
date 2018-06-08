@@ -1,4 +1,5 @@
 ﻿using BLL;
+using BOL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,12 @@ namespace ReservationApplication.Areas.Admin.Controllers
         }
 
         // GET: Admin/ManageCategories
-        public ActionResult Index(string SortOrder, string SortBy, string Page)
+        public ActionResult Index(string SortOrder, string SortBy, string Page, string afterCreateCageory)
         {
             ViewBag.SortOrder = SortOrder;
             ViewBag.SortBy = SortBy;
-            var users = objBS.GetAll();
+            ViewBag.afterCreateCageory = afterCreateCageory;
+            var categories = objBS.GetAll();
 
             #region Sort
             switch (SortBy)
@@ -32,10 +34,10 @@ namespace ReservationApplication.Areas.Admin.Controllers
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.CategoryName).ToList();
+                            categories = categories.OrderBy(x => x.CategoryName).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.CategoryName).ToList();
+                            categories = categories.OrderByDescending(x => x.CategoryName).ToList();
                             break;
                         default:
                             break;
@@ -45,10 +47,10 @@ namespace ReservationApplication.Areas.Admin.Controllers
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.Price).ToList();
+                            categories = categories.OrderBy(x => x.Price).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.Price).ToList();
+                            categories = categories.OrderByDescending(x => x.Price).ToList();
                             break;
                         default:
                             break;
@@ -58,42 +60,41 @@ namespace ReservationApplication.Areas.Admin.Controllers
                     switch (SortOrder)
                     {
                         case "Asc":
-                            users = users.OrderBy(x => x.ProcessLengthInMunites).ToList();
+                            categories = categories.OrderBy(x => x.ProcessLengthInMunites).ToList();
                             break;
                         case "Desc":
-                            users = users.OrderByDescending(x => x.ProcessLengthInMunites).ToList();
+                            categories = categories.OrderByDescending(x => x.ProcessLengthInMunites).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
                 default:
-                    users = users.OrderBy(x => x.CategoryName).ToList();
+                    categories = categories.OrderBy(x => x.CategoryName).ToList();
                     break;
             }
             #endregion
 
-            ViewBag.TotalPages = Math.Ceiling(users.Count() / DATAPERPAGE);
+            ViewBag.TotalPages = Math.Ceiling(categories.Count() / DATAPERPAGE);
             int page = int.Parse(Page == null ? "1" : Page);
             ViewBag.Page = page;
 
-            users = users.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE);
+            categories = categories.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE);
 
-            return View(users);
+            return View(categories);
         }
 
         public ActionResult Delete(string id)
         {
             try
             {
-
                 objBS.Delete(id);
-                TempData["Msg"] = "A törlés sikeres";
+                TempData["MsgS"] = "A törlés sikeres";
                 return RedirectToAction("Index");
             }
             catch
             {
-                TempData["Msg"] = "A törlés sikertelen";
+                TempData["MsgU"] = "A törlés sikertelen";
                 return RedirectToAction("Index");
             }
         }
@@ -103,9 +104,27 @@ namespace ReservationApplication.Areas.Admin.Controllers
             return null;
         }
 
-        public ActionResult Create(string id)
+        public ActionResult Create()
         {
-            return null;
+            return View("Create");
+        }
+
+        public ActionResult CreateCategory(CATEGORIES category)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    objBS.Insert(category);
+                    return RedirectToAction("Index", new { afterCreateCageory = category.CategoryName + " kategória sikeresen létrehozva!" });
+                }
+                return View("Create");
+            }
+            catch
+            {
+                TempData["Msg"] = "A kategória létrehozása sikertelen";
+                return RedirectToAction("Create");
+            }
         }
     }
 }

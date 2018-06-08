@@ -28,7 +28,7 @@ namespace BLL
             return objDB.GetByID(NickName);
         }
 
-        public void Insert(USERSvalidation user)
+        public void Insert(UserRegistration user)
         {
             USERS validateduser = new USERS();
 
