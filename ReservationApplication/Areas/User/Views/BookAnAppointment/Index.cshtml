@@ -1,36 +1,125 @@
 ﻿@model IEnumerable<BOL.APPOINTMENTS>
-@using DayPilot.Web.Mvc;
-@using DayPilot.Web.Mvc.Enums
-@using DayPilot.Web.Mvc.Events.Scheduler;
+@using Kendo.Mvc.UI;
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Scripts/DayPilot/daypilot-all.min.js"></script>
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
-<script src="~/Scripts/DayPilot/recurrence.js"></script>
-<link href="~/Scripts/DayPilot/scheduler_white.css" rel="stylesheet" />
-<link href="~/Scripts/DayPilot/areas.css" rel="stylesheet" />
+<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
+<link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.default.min.css" rel="stylesheet" type="text/css" />
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/jszip.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.aspnetmvc.min.js"></script>
+<script src="~/Scripts/Telerik/kendo.modernizr.custom.js"></script>
 
-@Html.DayPilotScheduler("dps", new DayPilotSchedulerConfig
-{
-    BackendUrl = Url.Content("~/BookAnAppointment/Backend"),
-    EventResizeHandling = EventResizeHandlingType.CallBack,
-    EventMoveHandling = EventMoveHandlingType.CallBack,
-    CellGroupBy = GroupBy.Week,
-    CellDuration = 1440,
-    Scale = TimeScale.Day,
-    Days = 7,
-    StartDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day),
-    EventClickHandling = EventClickHandlingType.JavaScript,
-    EventClickJavaScript = "ask(e);",
-    TimeRangeSelectedHandling = TimeRangeSelectedHandlingType.JavaScript,
-    TimeRangeSelectedJavaScript = "create(start, end, resource)",
+@(Html.Kendo().Scheduler<ReservationApplication.Reservate>()
+                        .Name("scheduler")
+                        .Date(new DateTime(2013, 6, 13))
+                        .StartTime(new DateTime(2013, 6, 13, 7, 00, 00))
+                        .Height(600)
+                        .Views(views =>
+                        {
+                            views.DayView();
+                            views.WorkWeekView(workWeekView => workWeekView.Selected(true));
+                            views.WeekView();
+                            views.MonthView();
+                            views.AgendaView();
+                            views.TimelineView();
+                        })
+                        .Timezone("Etc/UTC")
+                        .Resources(resource =>
+                        {
+                            resource.Add(m => m.OwnerID)
+                                .Title("Owner")
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .DataColorField("Color")
+                                .BindTo(new[] {
+new { Text = "Alex", Value = 1, Color = "#f8a398" } ,
+new { Text = "Bob", Value = 2, Color = "#51a0ed" } ,
+new { Text = "Charlie", Value = 3, Color = "#56ca85" }
+                                });
+                        })
+                        .DataSource(d => d
+                            .Model(m =>
+                            {
+                                m.Id(f => f.TaskID);
+                                m.Field(f => f.Title).DefaultValue("No title");
+                                m.Field(f => f.OwnerID).DefaultValue(1);
+                                m.Field(f => f.Title).DefaultValue("No title");
+                                m.RecurrenceId(f => f.RecurrenceID);
+                            })
+                            .Read("Read", "Scheduler")
+                            .Create("Create", "Scheduler")
+                            .Destroy("Destroy", "Scheduler")
+                            .Update("Update", "Scheduler")
+                            .Filter(filters =>
+                            {
+                                filters.Add(model => model.OwnerID).IsEqualTo(1).Or().IsEqualTo(2);
+                            })
+                        )
+)
 
+<script type="text/javascript">
+    $(function () {
+        $("#people :checkbox").change(function (e) {
+            var checked = $.map($("#people :checked"), function (checkbox) {
+                return parseInt($(checkbox).val());
+            });
 
-    CellWidth = 150,
-    EventHeight = 60
-})
+            var filter = {
+                logic: "or",
+                filters: $.map(checked, function (value) {
+                    return {
+                        operator: "eq",
+                        field: "OwnerID",
+                        value: value
+                    };
+                })
+            };
 
+            var scheduler = $("#scheduler").data("kendoScheduler");
+
+            scheduler.dataSource.filter(filter);
+        });
+    })
+</script>
+
+<style>
+
+.k-nav-current > .k-link span + span {
+    max-width: 200px;
+}
+
+#team-schedule {
+    background: url('@Url.Content("~/Content/web/scheduler/")team-schedule.png') transparent no-repeat;
+    height: 115px;
+    position: relative;
+}
+
+#people {
+    background: url('@Url.Content("~/Content/web/scheduler/")scheduler-people.png') no-repeat;
+    width: 345px;
+    height: 115px;
+    position: absolute;
+    right: 0;
+}
+#alex {
+    position: absolute;
+    left: 4px;
+    top: 81px;
+}
+#bob {
+    position: absolute;
+    left: 119px;
+    top: 81px;
+}
+#charlie {
+    position: absolute;
+    left: 234px;
+    top: 81px;
+}
+</style>

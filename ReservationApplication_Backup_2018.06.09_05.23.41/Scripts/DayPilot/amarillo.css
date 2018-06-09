@@ -1,0 +1,274 @@
+
+/* 
+
+DayPilot Calendar Theme 
+https://themes.daypilot.org/calendar/theme/hskhdi
+
+Theme Designer Version: 2017.05.15.1032
+
+*/
+
+.amarillo_main 
+{
+	border: 1px solid #a19fa1;
+}
+
+.amarillo_main, .amarillo_main td 
+{
+	font-family: Tahoma, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+.amarillo_event { 
+	color: #333333;
+	
+}
+
+.amarillo_event_inner { 
+	position: absolute;
+	overflow: hidden;
+	
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	
+	margin: 0px;
+
+	background-color: #ffffff;
+	
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#fafafa));  
+	background: -webkit-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -moz-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -ms-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: -o-linear-gradient(top, #ffffff 0%, #fafafa);
+	background: linear-gradient(top, #ffffff 0%, #fafafa);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#ffffff", endColorStr="#fafafa");
+	
+	
+	
+	padding: 2px;
+	
+	
+	padding-left: 6px;
+	
+	
+	border: 1px solid #cccccc;
+	
+	
+	
+	
+	
+}
+
+.amarillo_alldayevent { 
+	
+}
+
+.amarillo_alldayevent_inner { 
+	position: absolute;
+	overflow: hidden;
+	
+	left: 1px;
+	right: 0px;
+	top: 1px;
+	bottom: 0px;
+	
+	margin: 0px;
+
+	color: #f7f7f7;
+	background-color: #bfb8bf;
+	
+	background: -webkit-gradient(linear, left top, left bottom, from(#c3bcc3), to(#bbb4bb));  
+	background: -webkit-linear-gradient(top, #c3bcc3 0%, #bbb4bb);
+	background: -moz-linear-gradient(top, #c3bcc3 0%, #bbb4bb);
+	background: -ms-linear-gradient(top, #c3bcc3 0%, #bbb4bb);
+	background: -o-linear-gradient(top, #c3bcc3 0%, #bbb4bb);
+	background: linear-gradient(top, #c3bcc3 0%, #bbb4bb);
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr="#c3bcc3", endColorStr="#bbb4bb");
+	
+	
+	
+	padding: 4px;
+	
+	
+	border: 1px solid #cccccc;
+	
+	text-align: left;
+	
+	
+	
+}
+
+.amarillo_alldayheader_inner
+{
+	text-align: center; 
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #a19fa1;
+	border-bottom: 1px solid  #a19fa1;
+
+	color: #080808;
+	background: #f5e107;
+	
+
+}
+
+.amarillo_colheader_inner
+{
+	text-align: center; 
+	padding: 2px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #a19fa1;
+	border-bottom: 1px solid #a19fa1;
+	
+	color: #080808;
+	background: #f5e107;
+	
+}
+
+.amarillo_rowheader_inner
+{
+	font-size: 16pt;
+	
+	text-align: right; 
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #a19fa1;
+	border-bottom: 1px solid  #a19fa1;
+	
+	color: #080808;
+	background: #f5e107;
+	
+}
+
+.amarillo_rowheader_minutes 
+{
+	font-size:10px; 
+	vertical-align: super; 
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.amarillo_corner_inner
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #a19fa1;
+	border-bottom: 1px solid  #a19fa1;
+
+	color: #080808;
+	background: #f5e107;
+	
+}
+
+.amarillo_cornerright_inner
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #a19fa1;
+	border-bottom: 1px solid  #a19fa1;
+
+	color: #080808;
+	background: #f5e107;
+	
+
+}
+
+.amarillo_rowheader_inner {
+	padding: 2px;
+}
+
+.amarillo_cell_inner
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-right: 1px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
+	background: #d1cfd1;
+}
+
+.amarillo_cell_business .amarillo_cell_inner {
+	background: #ffffff;
+}
+
+.amarillo_message 
+{
+	padding: 10px;
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+	
+	color: #ffffff;
+	background: #f26d0f;
+	
+}
+
+.amarillo_shadow_inner 
+{
+	background-color: #666666;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	height: 100%;
+	
+}
+
+
+.amarillo_event_bar
+{
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 4px;
+	background-color: #f7f73b;
+}
+
+.amarillo_event_bar_inner  
+{
+	position: absolute;
+	width: 4px;
+	background-color: #f2fa0f;
+}
+
+
+
+.amarillo_event_delete {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAALCAYAAACprHcmAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjExR/NCNwAAAI5JREFUKFNtkLERgCAMRbmzdK8s4gAUlhYOYEHJEJYOYOEwDmGBPxC4kOPfvePy84MGR0RJ2N1A8H3N6DATwSQ57m2ql8NBG+AEM7D+UW+wjdfUPgerYNgB5gOLRHqhcasg84C2QxPMtrUhSqQIhg7ypy9VM2EUZPI/4rQ7rGxqo9sadTegw+UdjeDLAKUfhbaQUVPIfJYAAAAASUVORK5CYII=) center center no-repeat; 
+	opacity: 0.6; 
+	-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=60)'; 
+	cursor: pointer;
+}
+
+.amarillo_event_delete:hover {
+	opacity: 1;
+	-ms-filter: none;
+}
+
+.amarillo_scroll_up {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAB3RJTUUH2wESDiYcrhwCiQAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAARnQU1BAACxjwv8YQUAAACcSURBVHjaY2AgF9wWsTW6yGMlhi7OhC7AyMDQzMnBXIpFHAFuCtuaMTP+P8nA8P/b1x//FfW/HHuF1UQmxv+NUP1c3OxMVVhNvCVi683E8H8LXOY/w9+fTH81tF8fv4NiIpBRj+YoZtZ/LDUoJmKYhsVUpv0MDiyMDP96sIYV0FS2/8z9ICaLlOhvS4b/jC//MzC8xBG0vJeF7GQBlK0xdiUzCtsAAAAASUVORK5CYII=);
+}
+
+.amarillo_scroll_down {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAALiMAAC4jAXilP3YAAACqSURBVChTY7wpam3L9J+xmQEP+PGPKZZxP4MDi4zI78uMDIwa2NT+Z2DYovrmiC+TI8OBP/8ZmEqwGvif4e8vxr+FIDkmEKH25vBWBgbG0+iK/zEwLtF+ffwOXCGI8Y+BoRFFIdC030x/WmBiYBNhpgLdswNJ8RSYaSgmgk39z1gPUfj/29ef/9rwhQTDHRHbrbdEbLvRFcGthkkAra/9/uMvhkK8piNLAgCRpTnNn4AEmAAAAABJRU5ErkJggg==);
+}
+
+.amarillo_now { background-color: red; }
+.amarillo_now:before { content: ''; top: -5px; border-width: 5px; border-color: transparent transparent transparent red; border-style: solid; width: 0px; height:0px; position: absolute; -moz-transform: scale(.9999); }

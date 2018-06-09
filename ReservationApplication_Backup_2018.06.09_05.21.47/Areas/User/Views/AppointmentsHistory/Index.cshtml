@@ -1,0 +1,162 @@
+﻿@model IEnumerable<BOL.APPOINTMENTS>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function ConfirmDelete() {
+        return confirm('Biztos hogy ki szeretnéd törölni az időpontot?');
+    }
+</script>
+
+@{
+    var m = TempData["userappointments"] as List<BOL.APPOINTMENTS>;
+
+    int howmanyActive = 0;
+    List<BOL.APPOINTMENTS> activeAppointments = new List<BOL.APPOINTMENTS>();
+    foreach (var item in m)
+    {
+        if (item.StartingPont > DateTime.Now)
+        {
+            activeAppointments.Add(item);
+            howmanyActive++;
+        }
+    }
+}
+<br />
+<h2>@m.First().USERS.FullName (@m.First().NickName) időpontjai</h2>
+<br />
+
+<div class="alert alert-dismissible alert-success">
+    Időpont törlésére csak a hajvágás kezdetétől számítva <b>egy</b> órával korábban áll rendelkezésünkre.
+</div>
+
+<br />
+
+@if (howmanyActive > 0)
+{
+    <table class="table table-hover">
+        <tr class="table-active">
+            <th>
+                @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Foglalás dátuma", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+            </th>
+        </tr>
+
+        @foreach (var item in activeAppointments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReservationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartingPont)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndingPoint)
+                </td>
+                <td>
+                    @if (item.StartingPont > DateTime.Now.AddHours(1))
+                    {
+                        @Html.ActionLink("Törlés", "Delete", new { id = item.CategoryName }, new { onclick = "return ConfirmDelete()" })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <h2>Jelenleg nem rendelkezel aktív foglalással.</h2>
+    <br />
+    <h2>@Html.ActionLink("Itt tudsz időpontot foglalni.", "Index", "BookAnAppointment")</h2>
+    <br />
+}
+
+<br />
+
+<table class="table table-hover">
+    <tr class="table-active">
+        <th>
+            @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Foglalás dátuma", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+        <th>
+            @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+        </th>
+    </tr>
+
+    @foreach (var item in m)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartingPont)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndingPoint)
+            </td>
+        </tr>
+    }
+
+</table>
+
+@{
+    double TotalPages = ViewBag.TotalPages;
+}
+
+<ul class="pagination pagination-lg">
+    @for (int i = 1; i <= TotalPages; i++)
+    {
+        if (i == ViewBag.Page)
+        {
+            <li class="page-item active">
+                <a class="page-link active" href="@Url.Action( "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i })">@(i.ToString() + " ")</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item active">
+                <a class="page-link" href="@Url.Action( "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder), SortBy = (ViewBag.SortBy == null ? "NickName" : ViewBag.SortBy), Page = i})">@(i.ToString() + " ")</a>
+            </li>
+        }
+    }
+</ul>
