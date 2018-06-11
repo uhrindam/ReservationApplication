@@ -15,28 +15,97 @@ namespace ReservationApplication.Areas.User.Controllers
     public class BookAnAppointmentController : Controller
     {
         // GET: User/BookAnAppointment
-        public ActionResult Index([DataSourceRequest]DataSourceRequest request)
+        //private SchedulerTaskService taskService;
+        //private SchedulerMeetingService meetingService;
+
+
+        //public BookAnAppointmentController()
+        //{
+        //    this.taskService = new SchedulerTaskService();
+        //    this.meetingService = new SchedulerMeetingService();
+        //}
+
+        public ActionResult Index()
         {
-            List<Reservate> tasks = new List<Reservate>();
-            Reservate r = new Reservate();
-            r.Title = "test";
-            r.OwnerID = 1;
-            r.IsAllDay = false;
-            r.Description = "leiras";
-            r.Start = new DateTime(2018, 06, 10, 10, 00, 00);
-            r.End = new DateTime(2018, 06, 10, 11, 00, 00);
-            r.EndTimezone = "UTC";
-            r.StartTimezone = "UTC";
-            r.RecurrenceID = 10;
-            r.RecurrenceRule = "U";
-            r.TaskID = 1;
+            List<Reservate> cinemaSchedule = new List<Reservate> {
+            new Reservate {
+                Title = "Fast and furious 6",
+                Start = new DateTime(2018,6,13,17,00,00),
+                End= new DateTime(2018,6,13,18,30,00)
+            },
+            new Reservate {
+                Title= "The Internship",
+                Start= new DateTime(2018,6,13,14,00,00),
+                End= new DateTime(2018,6,13,15,30,00)
+            },
+            new Reservate {
+                Title = "The Perks of Being a Wallflower",
+                Start =  new DateTime(2018,6,13,16,00,00),
+                End =  new DateTime(2018,6,13,17,30,00)
+            }};
 
-            tasks.Add(r);
-
-            Json(tasks.ToDataSourceResult(request));
-
-            return View();
+            return View(cinemaSchedule);
         }
+
+        //public virtual JsonResult Read([DataSourceRequest] DataSourceRequest request)
+        //{
+        //    List<Reservate> tasks = new List<Reservate>();
+        //    Reservate r = new Reservate();
+        //    r.Title = "test";
+        //    r.OwnerID = 1;
+        //    r.IsAllDay = false;
+        //    r.Description = "leiras";
+        //    r.Start = new DateTime(2018, 06, 10, 10, 00, 00);
+        //    r.End = new DateTime(2018, 06, 10, 11, 00, 00);
+        //    r.EndTimezone = "UTC";
+        //    r.StartTimezone = "UTC";
+        //    r.RecurrenceID = 10;
+        //    r.RecurrenceRule = "U";
+        //    r.TaskID = 1;
+
+        //    tasks.Add(r);
+
+        //    Json(tasks.ToDataSourceResult(request));
+
+        //    return Json(tasks.ToDataSourceResult(request));
+        //}
+
+        //public virtual JsonResult Create([DataSourceRequest] DataSourceRequest request, Reservate task)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        taskService.Insert(task, ModelState);
+        //    }
+
+        //    return Json(new[] { task }.ToDataSourceResult(request, ModelState));
+        //}
+
+        //public virtual JsonResult Destroy([DataSourceRequest] DataSourceRequest request, TaskViewModel task)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        taskService.Delete(task, ModelState);
+        //    }
+
+        //    return Json(new[] { task }.ToDataSourceResult(request, ModelState));
+        //}
+
+        //public virtual JsonResult Update([DataSourceRequest] DataSourceRequest request, TaskViewModel task)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        taskService.Update(task, ModelState);
+        //    }
+
+        //    return Json(new[] { task }.ToDataSourceResult(request, ModelState));
+        //}
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    taskService.Dispose();
+        //    meetingService.Dispose();
+        //    base.Dispose(disposing);
+        //}
 
         //public ActionResult Backend()
         //{

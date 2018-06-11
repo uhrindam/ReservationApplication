@@ -56,10 +56,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Kendo.Mvc">
-      <HintPath>..\lib\KENDOUIMVC\2018.2.516.545.Trial\Kendo.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -193,25 +189,23 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\Telerik\kendo.modernizr.custom.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.agendaview.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.dayview.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.monthview.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.recurrence.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.timelineview.min.js" />
-    <Content Include="Scripts\Telerik\kendo.scheduler.view.min.js" />
-    <Content Include="Scripts\umd\popper-utils.js" />
-    <Content Include="Scripts\umd\popper-utils.min.js" />
-    <Content Include="Scripts\umd\popper.js" />
-    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\Telerik\a\jquery.min.js" />
+    <Content Include="Scripts\Telerik\a\jszip.min.js" />
+    <Content Include="Scripts\Telerik\a\kendo.all.min.js" />
+    <Content Include="Scripts\Telerik\a\kendo.aspnetmvc.min.js" />
+    <Content Include="Scripts\Telerik\a\kendo.common.min.css" />
+    <Content Include="Scripts\Telerik\a\kendo.default.min.css" />
+    <Content Include="Scripts\Telerik\a\kendo.mobile.all.min.css" />
+    <Content Include="Scripts\Telerik\a\kendo.modernizr.custom.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\User\Views\BookAnAppointment\Index.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\ListUsers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ManageCategories\Index.cshtml" />
     <Content Include="Areas\Security\Views\Registration\Index.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -244,10 +238,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-    <Content Include="Scripts\umd\popper.min.js.map" />
-    <Content Include="Scripts\umd\popper.js.map" />
-    <Content Include="Scripts\umd\popper-utils.min.js.map" />
-    <Content Include="Scripts\umd\popper-utils.js.map" />
     <Content Include="Scripts\README.md" />
     <Content Include="Scripts\popper.min.js.map" />
     <Content Include="Scripts\popper.js.map" />
