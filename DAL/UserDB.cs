@@ -7,41 +7,43 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class UserDB
+    public class UserDB : BaseDB
     {
-        ReservationDBEntities db;
-
-        public UserDB()
-        {
-            db = new ReservationDBEntities();
-        }
-
         public IEnumerable<USERS> GetAll()
         {
-            return db.USERS.ToList();
+            return Db.USERS.ToList();
         }
 
         public USERS GetByID(string NickName)
         {
-            return db.USERS.First(x => x.NickName == NickName);
+            try
+            {
+                return Db.USERS.First(x => x.NickName == NickName);
+            }
+            catch (Exception)
+            {
+                while (Db.Database.Connection.State != System.Data.ConnectionState.Closed) { }
+                Db = new ReservationDBEntities();
+                return Db.USERS.First(x => x.NickName == NickName);
+            }
         }
 
         public void Insert(USERS user)
         {
-            db.USERS.Add(user);
-            db.SaveChanges();
+            Db.USERS.Add(user);
+            Db.SaveChanges();
         }
 
         public void Delete(string NickName)
         {
-            db.USERS.Remove(GetByID(NickName));
-            db.SaveChanges();
+            Db.USERS.Remove(GetByID(NickName));
+            Db.SaveChanges();
         }
 
         public void Update(USERS user)
         {
-            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
+            Db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            Db.SaveChanges();
         }
     }
 }

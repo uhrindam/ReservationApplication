@@ -5,14 +5,30 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using Kendo.Mvc;
 using System.Web.Mvc;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
+using BLL;
+using ReservationApplication.Areas.User.Models;
 
 namespace ReservationApplication.Areas.User.Controllers
 {
     [Authorize(Roles = "A, U")]
     public class BookAnAppointmentController : Controller
     {
-        // GET: User/BookAnAppointment
+        AppointmentBL appBL;
+        CategoryBL categBL;
+
+        List<SchedulerReservations> reservations;
+
+        public BookAnAppointmentController()
+        {
+            appBL = new AppointmentBL();
+            categBL = new CategoryBL();
+            reservations = ClassConverter.ClassConverter.ConvertToSchedulerReservation(appBL.GetAll().ToList());
+            reservations = new List<SchedulerReservations>();
+        }
         //private SchedulerTaskService taskService;
         //private SchedulerMeetingService meetingService;
 
@@ -23,27 +39,81 @@ namespace ReservationApplication.Areas.User.Controllers
         //    this.meetingService = new SchedulerMeetingService();
         //}
 
+        // GET: User/BookAnAppointment
         public ActionResult Index()
         {
-            //List<Reservate> cinemaSchedule = new List<Reservate> {
-            //new Reservate {
-            //    Title = "Fast and furious 6",
-            //    Start = new DateTime(2018,6,13,17,00,00),
-            //    End= new DateTime(2018,6,13,18,30,00)
-            //},
-            //new Reservate {
-            //    Title= "The Internship",
-            //    Start= new DateTime(2018,6,13,14,00,00),
-            //    End= new DateTime(2018,6,13,15,30,00)
-            //},
-            //new Reservate {
-            //    Title = "The Perks of Being a Wallflower",
-            //    Start =  new DateTime(2018,6,13,16,00,00),
-            //    End =  new DateTime(2018,6,13,17,30,00)
-            //}};
-
-            return View();//cinemaSchedule);
+            ViewBag.CategoryNames = categBL.GetCategoryNames();
+            return View();
         }
+
+        public virtual JsonResult Read([DataSourceRequest] DataSourceRequest request)
+        {
+            //reservations.Add(
+            //new SchedulerReservations
+            //{
+            //    TaskID = 2,
+            //    Title = "Fast and furious 6",
+            //    Start = new DateTime(2018, 6, 13, 17, 00, 00),
+            //    End = new DateTime(2018, 6, 13, 18, 30, 00)
+            //});
+            //reservations.Add(
+            //new SchedulerReservations
+            //{
+            //    TaskID = 1,
+            //    Title = "The Internship",
+            //    Start = new DateTime(2018, 6, 13, 14, 00, 00),
+            //    End = new DateTime(2018, 6, 13, 15, 30, 00)
+            //});
+            //reservations.Add(
+            //new SchedulerReservations
+            //{
+            //    TaskID = 3,
+            //    Title = "The Perks of Being a Wallflower",
+            //    Start = new DateTime(2018, 6, 13, 16, 00, 00),
+            //    End = new DateTime(2018, 6, 13, 17, 30, 00)
+            //});
+            reservations = ClassConverter.ClassConverter.ConvertToSchedulerReservation(appBL.GetAll().ToList());
+
+            return Json(reservations.ToDataSourceResult(request));
+        }
+
+        public virtual JsonResult Create([DataSourceRequest] DataSourceRequest request, SchedulerReservations appointment)
+        {
+            if (ModelState.IsValid)
+            {
+                appointment.CategoryName = "Férfi hajvágás";
+                appointment.NickName = User.Identity.Name;
+                reservations.Add(appointment);
+                ClassConverter.ClassConverter.ConvertToInsertAppointment(appointment);
+            }
+
+            return Json(new[] { appointment }.ToDataSourceResult(request, ModelState));
+        }
+
+        //ahhoz hogy egyszerre csak egyet engedjen foglalni
+        //protected void RadScheduler1_AppointmentInsert(object sender, Telerik.Web.UI.SchedulerCancelEventArgs e)
+        //{
+        //    if (RadScheduler1.Appointments.GetAppointmentsInRange(e.Appointment.Start, e.Appointment.End).Count > 0)
+        //    {
+        //        e.Cancel = true;
+
+        //    }
+
+        //}
+        //protected void RadScheduler1_AppointmentUpdate(object sender, Telerik.Web.UI.AppointmentUpdateEventArgs e)
+        //{
+        //    if (RadScheduler1.Appointments.GetAppointmentsInRange(e.ModifiedAppointment.Start, e.ModifiedAppointment.End).Count > 0)
+        //    {
+        //        foreach (Appointment a in RadScheduler1.Appointments.GetAppointmentsInRange(e.ModifiedAppointment.Start, e.ModifiedAppointment.End))
+        //        {
+        //            if (a.ID != e.Appointment.ID)
+        //            {
+        //                e.Cancel = true;
+        //            }
+        //        }
+        //    }
+        //}
+
 
         //public virtual JsonResult Read([DataSourceRequest] DataSourceRequest request)
         //{
@@ -68,15 +138,8 @@ namespace ReservationApplication.Areas.User.Controllers
         //    return Json(tasks.ToDataSourceResult(request));
         //}
 
-        //public virtual JsonResult Create([DataSourceRequest] DataSourceRequest request, Reservate task)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        taskService.Insert(task, ModelState);
-        //    }
 
-        //    return Json(new[] { task }.ToDataSourceResult(request, ModelState));
-        //}
+
 
         //public virtual JsonResult Destroy([DataSourceRequest] DataSourceRequest request, TaskViewModel task)
         //{

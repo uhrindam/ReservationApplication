@@ -257,8 +257,9 @@
     <Compile Include="Areas\User\Controllers\AppointmentsHistoryController.cs" />
     <Compile Include="Areas\User\Controllers\BookAnAppointmentController.cs" />
     <Compile Include="Areas\User\Controllers\ChangeUserSettingsController.cs" />
-    <Compile Include="Models\Reservate.cs" />
+    <Compile Include="Areas\User\Models\SchedulerReservations.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
+    <Compile Include="ClassConverter\ClassConverter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -307,9 +308,9 @@
     <Folder Include="Areas\Common\Views\Shared\" />
     <Folder Include="Areas\Security\Models\" />
     <Folder Include="Areas\Security\Views\Shared\" />
-    <Folder Include="Areas\User\Models\" />
     <Folder Include="Areas\User\Views\Shared\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">

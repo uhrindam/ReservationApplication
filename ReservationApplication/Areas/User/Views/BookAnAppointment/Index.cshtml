@@ -1,9 +1,10 @@
-﻿@model IEnumerable<ReservationApplication.Models.Reservate>
+﻿@model IEnumerable<ReservationApplication.Areas.User.Models.SchedulerReservations>
 @using Kendo.Mvc.UI;
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> categoryNames = ViewBag.CategoryNames;
 }
 
 <link href="https://kendo.cdn.telerik.com/2018.2.516/styles/kendo.common.min.css" rel="stylesheet" type="text/css" />
@@ -13,15 +14,59 @@
 <script src="https://kendo.cdn.telerik.com/2018.2.516/js/jszip.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.all.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2018.2.516/js/kendo.aspnetmvc.min.js"></script>
+<script src="http://kendo.cdn.telerik.com/2018.2.516/js/cultures/kendo.culture.hu-HU.min.js"></script>
+
 <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 
-@(Html.Kendo().Scheduler<ReservationApplication.Models.Reservate>()
-                                        .Name("scheduler")
-                                        .Date(new DateTime(2013, 6, 13))
-                                        .StartTime(new DateTime(2013, 6, 13, 10, 00, 00))
-                                        .EndTime(new DateTime(2013, 6, 13, 23, 00, 00))
-                                        .Editable(false)
-                                        .Height(600)
-                                        .Footer(true)
-                                        .BindTo(Model)
-)
+@(Html.Kendo().Scheduler<ReservationApplication.Areas.User.Models.SchedulerReservations>()
+        .Name("scheduler")
+        .Date(DateTime.Now)
+        .StartTime(new DateTime(2018, 6, 13, 9, 00, 00))
+        .EndTime(new DateTime(2018, 6, 13, 17, 00, 00))
+        .Height(600)
+        .Footer(false)
+        .Timezone("Etc/UTC")
+        .AllDaySlot(false)
+
+        //.MinorTickCount(5)
+
+        .Views(views =>
+        {
+            views.WeekView();
+        })
+
+        .Editable(e =>
+        {
+            e.Move(false);
+            e.Update(false);
+            e.Resize(false);
+        })
+
+        .DataSource(ds => ds
+            .Batch(false)
+            .Model(m =>
+            {
+                m.Id(f => f.TaskID);
+                m.Field(f => f.OwnerID).DefaultValue(1);
+            })
+            .Read(read => read.Action("Read", "BookAnAppointment"))
+            .Create(read => read.Action("Create", "BookAnAppointment"))
+            .Destroy(read => read.Action("Destroy", "BookAnAppointment"))
+            .Update(read => read.Action("Update", "BookAnAppointment")))
+        .BindTo(Model)
+    )
+
+<script type="text/javascript">
+    //set current to the "en-GB" culture script
+    kendo.culture("hu-HU");
+</script>
+
+<script id="createTemplate" type="text/x-kendo-template">
+    <h3>Edit meeting</h3>
+    <p>
+        <label>Title: <input name="title" /></label>
+    </p>
+    <p>
+        <label>Start: <input data-role="datetimepicker" name="start" /></label>
+    </p>
+</script>

@@ -7,41 +7,39 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class CategoryDB
+    public class CategoryDB : BaseDB
     {
-        ReservationDBEntities db;
-
-        public CategoryDB()
-        {
-            db = new ReservationDBEntities();
-        }
-
         public IEnumerable<CATEGORIES> GetAll()
         {
-            return db.CATEGORIES.ToList();
+            return Db.CATEGORIES.ToList();
         }
 
         public CATEGORIES GetByID(string CategoryName)
         {
-            return db.CATEGORIES.First(x => x.CategoryName == CategoryName);
+            return Db.CATEGORIES.First(x => x.CategoryName == CategoryName);
         }
 
         public void Insert(CATEGORIES category)
         {
-            db.CATEGORIES.Add(category);
-            db.SaveChanges();
+            Db.CATEGORIES.Add(category);
+            Db.SaveChanges();
         }
 
         public void Delete(string CategoryName)
         {
-            db.CATEGORIES.Remove(GetByID(CategoryName));
-            db.SaveChanges();
+            Db.CATEGORIES.Remove(GetByID(CategoryName));
+            Db.SaveChanges();
         }
 
         public void Update(CATEGORIES category)
         {
-            db.Entry(category).State = System.Data.Entity.EntityState.Modified;
-            db.SaveChanges();
+            Db.Entry(category).State = System.Data.Entity.EntityState.Modified;
+            Db.SaveChanges();
+        }
+
+        public List<string> GetCategoryNames()
+        {
+            return Db.CATEGORIES.Select(x=>x.CategoryName).ToList();
         }
     }
 }

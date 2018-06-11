@@ -1,13 +1,13 @@
-﻿using Kendo.Mvc.UI;
+﻿using BOL;
+using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace ReservationApplication.Models
+namespace ReservationApplication.Areas.User.Models
 {
-    public class Reservate : ISchedulerEvent
+    public class SchedulerReservations : ISchedulerEvent
     {
         public int TaskID { get; set; }
         public string Title { get; set; }
@@ -46,5 +46,8 @@ namespace ReservationApplication.Models
         public int? OwnerID { get; set; }
         public string StartTimezone { get; set; }
         public string EndTimezone { get; set; }
+
+        public string NickName { get; set; }
+        public string CategoryName { get; set; }
     }
 }
