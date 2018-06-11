@@ -1,6 +1,4 @@
-﻿using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -27,24 +25,24 @@ namespace ReservationApplication.Areas.User.Controllers
 
         public ActionResult Index()
         {
-            List<Reservate> cinemaSchedule = new List<Reservate> {
-            new Reservate {
-                Title = "Fast and furious 6",
-                Start = new DateTime(2018,6,13,17,00,00),
-                End= new DateTime(2018,6,13,18,30,00)
-            },
-            new Reservate {
-                Title= "The Internship",
-                Start= new DateTime(2018,6,13,14,00,00),
-                End= new DateTime(2018,6,13,15,30,00)
-            },
-            new Reservate {
-                Title = "The Perks of Being a Wallflower",
-                Start =  new DateTime(2018,6,13,16,00,00),
-                End =  new DateTime(2018,6,13,17,30,00)
-            }};
+            //List<Reservate> cinemaSchedule = new List<Reservate> {
+            //new Reservate {
+            //    Title = "Fast and furious 6",
+            //    Start = new DateTime(2018,6,13,17,00,00),
+            //    End= new DateTime(2018,6,13,18,30,00)
+            //},
+            //new Reservate {
+            //    Title= "The Internship",
+            //    Start= new DateTime(2018,6,13,14,00,00),
+            //    End= new DateTime(2018,6,13,15,30,00)
+            //},
+            //new Reservate {
+            //    Title = "The Perks of Being a Wallflower",
+            //    Start =  new DateTime(2018,6,13,16,00,00),
+            //    End =  new DateTime(2018,6,13,17,30,00)
+            //}};
 
-            return View(cinemaSchedule);
+            return View();//cinemaSchedule);
         }
 
         //public virtual JsonResult Read([DataSourceRequest] DataSourceRequest request)
