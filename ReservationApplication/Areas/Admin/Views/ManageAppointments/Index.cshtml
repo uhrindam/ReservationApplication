@@ -21,7 +21,7 @@
                             @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.StartingPont)
+                            @Html.DisplayFor(modelItem => item.StartDate)
                         </td>
                     </tr>
                 }
@@ -78,10 +78,10 @@
             @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
         </th>
         <th>
-            @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
         </th>
         <th>
-            @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
         </th>
     </tr>
 
@@ -104,10 +104,10 @@
                 @Html.DisplayFor(modelItem => item.CurrentPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartingPont)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndingPoint)
+                @Html.DisplayFor(modelItem => item.EndDate)
             </td>
         </tr>
     }

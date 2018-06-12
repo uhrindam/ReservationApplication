@@ -42,7 +42,8 @@ namespace ReservationApplication.Areas.User.Controllers
         // GET: User/BookAnAppointment
         public ActionResult Index()
         {
-            ViewBag.CategoryNames = categBL.GetCategoryNames();
+            ViewBag.Categories = categBL.GetAll().OrderBy(x=>x.CategoryName).ToList();
+
             return View();
         }
 
@@ -81,14 +82,33 @@ namespace ReservationApplication.Areas.User.Controllers
         {
             if (ModelState.IsValid)
             {
-                appointment.CategoryName = "Férfi hajvágás";
                 appointment.NickName = User.Identity.Name;
-                reservations.Add(appointment);
-                ClassConverter.ClassConverter.ConvertToInsertAppointment(appointment);
+                appointment = ClassConverter.ClassConverter.DataConverter(appointment);
+
+                if(ClassConverter.ClassConverter.ReservationValidation(appointment) )
+                {
+                    reservations.Add(appointment);
+                    ClassConverter.ClassConverter.ConvertToInsertAppointment(appointment);
+                }
+                else
+                {
+                    appointment = null;
+                    TempData["Message"] = "A foglalás sikertelen.";
+                    return Json(reservations.ToDataSourceResult(request));
+                }
+
             }
 
             return Json(new[] { appointment }.ToDataSourceResult(request, ModelState));
         }
+
+
+
+        /// <summary>
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns>return false if there is overlapping, else return true</returns>
+        
 
         //ahhoz hogy egyszerre csak egyet engedjen foglalni
         //protected void RadScheduler1_AppointmentInsert(object sender, Telerik.Web.UI.SchedulerCancelEventArgs e)

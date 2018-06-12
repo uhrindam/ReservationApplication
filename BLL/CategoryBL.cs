@@ -41,10 +41,5 @@ namespace BLL
         {
             objDB.Update(category);
         }
-
-        public List<string> GetCategoryNames()
-        {
-            return objDB.GetCategoryNames();
-        }
     }
 }

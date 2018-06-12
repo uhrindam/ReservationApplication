@@ -95,34 +95,34 @@ namespace ReservationApplication.Areas.Admin.Controllers
                             break;
                     }
                     break;
-                case "StartingPont":
+                case "StartDate":
                     switch (SortOrder)
                     {
                         case "Asc":
-                            appointments = appointments.OrderBy(x => x.StartingPont).ToList();
+                            appointments = appointments.OrderBy(x => x.StartDate).ToList();
                             break;
                         case "Desc":
-                            appointments = appointments.OrderByDescending(x => x.StartingPont).ToList();
+                            appointments = appointments.OrderByDescending(x => x.StartDate).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
-                case "EndingPoint":
+                case "EndDate":
                     switch (SortOrder)
                     {
                         case "Asc":
-                            appointments = appointments.OrderBy(x => x.EndingPoint).ToList();
+                            appointments = appointments.OrderBy(x => x.EndDate).ToList();
                             break;
                         case "Desc":
-                            appointments = appointments.OrderByDescending(x => x.EndingPoint).ToList();
+                            appointments = appointments.OrderByDescending(x => x.EndDate).ToList();
                             break;
                         default:
                             break;
                     }
                     break;
                 default:
-                    appointments = appointments.OrderBy(x => x.StartingPont).ToList();
+                    appointments = appointments.OrderBy(x => x.StartDate).ToList();
                     break;
             }
             #endregion

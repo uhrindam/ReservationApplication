@@ -14,7 +14,7 @@ namespace DAL
             return Db.APPOINTMENTS.ToList();
         }
 
-        public APPOINTMENTS GetByID(string id)
+        public APPOINTMENTS GetByID(int id)
         {
             return Db.APPOINTMENTS.First(x => x.ID == id);
         }
@@ -25,7 +25,7 @@ namespace DAL
             Db.SaveChanges();
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             Db.APPOINTMENTS.Remove(GetByID(id));
             Db.SaveChanges();

@@ -12,7 +12,6 @@ namespace ReservationApplication.ClassConverter
     {
         public static List<SchedulerReservations> ConvertToSchedulerReservation(List<APPOINTMENTS> appointments)
         {
-            Random rnd = new Random();
             List<SchedulerReservations> reservations = new List<SchedulerReservations>();
             foreach (var item in appointments)
             {
@@ -20,46 +19,79 @@ namespace ReservationApplication.ClassConverter
                     new SchedulerReservations()
                     {
                         Title = item.USERS.FullName + ", " + item.CategoryName,
-                        Start = (DateTime)item.StartingPont,
-                        End = (DateTime)item.EndingPoint,
+                        Description = item.USERS.FullName + ", " + item.CategoryName + ", " + (int)item.CurrentPrice + ", " + (DateTime)item.ReservationDate,
+                        Start = item.StartDate.Value.AddHours(2),
+                        End = item.EndDate.Value.AddHours(2),
                         NickName = item.NickName,
                         CategoryName = item.CategoryName,
-                        Description = item.USERS.FullName + ", " + item.CategoryName + ", " + (int)item.CurrentPrice + ", " + (DateTime)item.ReservationDate,
-                        TaskID = rnd.Next(1,10000000)
+                        TaskID = item.ID,
+                        ProcessLengthInMunites = (int)item.CATEGORIES.ProcessLengthInMunites
                     }
                     );
             }
             return reservations;
         }
 
-        public static void ConvertToInsertAppointment(SchedulerReservations reservation)
+        private static APPOINTMENTS CreateAPPOINTMENTSobject(SchedulerReservations reservation)
         {
-            CategoryBL catBL = new CategoryBL();
-            UserBL userBL = new UserBL();
-            AppointmentBL bl = new AppointmentBL();
-
-            APPOINTMENTS appointment = new APPOINTMENTS()
+            return new APPOINTMENTS()
             {
                 CategoryName = reservation.CategoryName,
-                StartingPont = reservation.Start,
-                EndingPoint = reservation.End,
+                StartDate = reservation.Start,
+                EndDate = reservation.End,
                 NickName = reservation.NickName,
-
-                CurrentPrice = catBL.GetByID(reservation.CategoryName).Price,
-                //USERS = userBL.GetByID(reservation.NickName),
-                //CATEGORIES = catBL.GetByID(reservation.CategoryName),
-                ReservationDate = DateTime.Now,
-                ID = CalculateAppointmentID(),
-                IsNotDeleted = true
+                CurrentPrice = reservation.CurrentPrice,
+                ReservationDate = reservation.ReservationDate,
+                ID = reservation.TaskID
             };
-
-            bl.Insert(appointment);
         }
 
-        private static string CalculateAppointmentID()
+        public static void ConvertToInsertAppointment(SchedulerReservations reservation)
         {
-            Random rnd = new Random();
-            return rnd.Next(1, 1000000000).ToString();
+            AppointmentBL bl = new AppointmentBL();
+            bl.Insert(CreateAPPOINTMENTSobject(reservation));
+        }
+
+        private static int CalculateAppointmentID()
+        {
+            AppointmentBL bl = new AppointmentBL();
+            return bl.GetAll().Last().ID +1;
+        }
+
+        public static SchedulerReservations DataConverter(SchedulerReservations appointment)
+        {
+            CategoryBL categBL = new CategoryBL();
+            CATEGORIES categ = categBL.GetByID(appointment.CategoryName);
+            appointment.CurrentPrice = (int)categ.Price;
+            appointment.End = appointment.Start.AddMinutes((int)categ.ProcessLengthInMunites);
+            appointment.TaskID = CalculateAppointmentID();
+            appointment.ReservationDate = DateTime.Now;
+
+            UserBL userBL = new UserBL();
+            appointment.Title = userBL.GetByID(appointment.NickName).FullName + ", " + categ.CategoryName;
+            appointment.Description = appointment.Title  + ", " + appointment.CurrentPrice + ", " + appointment.ReservationDate;
+
+            return appointment;
+        }
+
+        public static bool CheckForOverlapping(SchedulerReservations appointment)
+        {
+            AppointmentBL appBL = new AppointmentBL();
+            List<BOL.APPOINTMENTS> newappointments = appBL.GetAll().Where(x => x.StartDate > DateTime.Now).ToList();
+            foreach (var item in newappointments)
+            {
+                if (item.StartDate <= appointment.End && appointment.Start <= item.EndDate)
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool ReservationValidation(SchedulerReservations appointment)
+        {
+            if (appointment.CategoryName == null)
+                return false;
+
+            return CheckForOverlapping(appointment);
         }
     }
 }

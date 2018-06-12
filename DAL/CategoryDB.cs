@@ -36,10 +36,5 @@ namespace DAL
             Db.Entry(category).State = System.Data.Entity.EntityState.Modified;
             Db.SaveChanges();
         }
-
-        public List<string> GetCategoryNames()
-        {
-            return Db.CATEGORIES.Select(x=>x.CategoryName).ToList();
-        }
     }
 }

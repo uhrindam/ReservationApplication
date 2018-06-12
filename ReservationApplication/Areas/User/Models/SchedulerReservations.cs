@@ -2,6 +2,7 @@
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -48,6 +49,22 @@ namespace ReservationApplication.Areas.User.Models
         public string EndTimezone { get; set; }
 
         public string NickName { get; set; }
+        [Required]
         public string CategoryName { get; set; }
+        public int CurrentPrice { get; set; }
+        public int ProcessLengthInMunites { get; set; }
+
+        private DateTime reservationDate;
+        public DateTime ReservationDate
+        {
+            get
+            {
+                return reservationDate;
+            }
+            set
+            {
+                reservationDate = value.ToUniversalTime();
+            }
+        }
     }
 }

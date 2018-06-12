@@ -22,7 +22,7 @@ namespace BLL
             return objDB.GetAll();
         }
 
-        public APPOINTMENTS GetByID(string id)
+        public APPOINTMENTS GetByID(int id)
         {
             return objDB.GetByID(id);
         }
@@ -32,7 +32,7 @@ namespace BLL
             objDB.Insert(appointment);
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             objDB.Delete(id);
         }

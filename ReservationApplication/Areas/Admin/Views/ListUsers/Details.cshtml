@@ -24,10 +24,10 @@
             @Html.ActionLink("Foglaláskor aktuális ár", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
         </th>
         <th>
-            @Html.ActionLink("Kezdő időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartingPont", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+            @Html.ActionLink("Kezdő időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
         </th>
         <th>
-            @Html.ActionLink("Befejező időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndingPoint", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
+            @Html.ActionLink("Befejező időpont", "Details", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page), ISortOrder = ViewBag.ISortOrder, ISortBy = ViewBag.ISortBy, IPage = ViewBag.IPage, NickName = ViewBag.NickName })
         </th>
         <th></th>
     </tr>
@@ -45,10 +45,10 @@
                 @Html.DisplayFor(modelItem => item.CurrentPrice)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartingPont)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndingPoint)
+                @Html.DisplayFor(modelItem => item.EndDate)
             </td>
         </tr>
     }

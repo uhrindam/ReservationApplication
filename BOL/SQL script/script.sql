@@ -19,14 +19,13 @@ CREATE TABLE USERS (
 );
 
 CREATE TABLE APPOINTMENTS(
-	ID				varchar(255)	NOT NULL,
+	ID				int				NOT NULL,
 	NickName 		varchar(255) 	NOT NULL,
 	CategoryName 	varchar(255) 	NOT NULL,
-	ReservationDate	DATETIME		NULL,
-	CurrentPrice	int				NULL,
-	StartingPont	DATETIME		NULL,
-	EndingPoint		DATETIME		NULL,
-	IsNotDeleted	bit				DEFAULT 'true'
+	ReservationDate	DATETIME		,
+	CurrentPrice	int				,
+	StartDate		DATETIME		,
+	EndDate			DATETIME		,
 	CONSTRAINT PK_APPOINTMENTS 		PRIMARY KEY (ID),
 	CONSTRAINT FK_APP_NickName 		FOREIGN KEY (NickName) 
 									REFERENCES USERS(NickName),
@@ -60,10 +59,12 @@ INSERT INTO USERS VALUES ('StrongGuy', 'Armin az USBnyaku', 'USB.nyaku@gs.com', 
 INSERT INTO USERS VALUES ('thor', 'Chris Hemswoth', 'krisz.hemszfort@asfg.com', '22d5c8366e997e1927887b06a9458fcff7367ed1','2018-06-01 12:00:00','false')
 INSERT INTO USERS VALUES ('uhrindam', 'Uhrin Ádám Attila', 'uhrin.adam@nemezazemailem.com', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d','2018-06-01 12:00:00','true')
 
-INSERT INTO APPOINTMENTS VALUES('00001FH','uhrindam', 'Férfi hajvágás','2018-06-01 12:00:00', 1500, '2018-06-01 14:00:00', '2018-06-01 14:30:00','false')
-INSERT INTO APPOINTMENTS VALUES('00002SV','uhrindam', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-01 14:30:00', '2018-06-01 14:45:00', 'false')
-INSERT INTO APPOINTMENTS VALUES('00003OK', 'loki', 'Összetett konty','2018-06-01 12:00:00', 4000, '2018-06-01 15:30:00', '2018-06-01 17:30:00', 'false')
-INSERT INTO APPOINTMENTS VALUES('00004OK', 'loki', 'Összetett konty','2018-06-01 12:00:00', 4000, '2018-06-02 15:30:00', '2018-06-02 17:30:00', 'false')
-INSERT INTO APPOINTMENTS VALUES('00005FH','uhrindam', 'Férfi hajvágás', '2018-06-01 12:00:00', 1500, '2018-06-03 12:00:00', '2018-06-03 12:30:00', 'false')
-INSERT INTO APPOINTMENTS VALUES('00006SV','uhrindam', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-03 12:30:00', '2018-06-03 12:45:00', 'false')
-INSERT INTO APPOINTMENTS VALUES('00007SV','pokemberfanboy', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-03 13:00:00', '2018-06-03 13:15:00', 'false')
+
+
+INSERT INTO APPOINTMENTS VALUES('1','uhrindam', 'Férfi hajvágás','2018-06-01 12:00:00', 1500, '2018-06-01 14:00:00', '2018-06-01 14:30:00')
+INSERT INTO APPOINTMENTS VALUES('2','uhrindam', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-01 14:30:00', '2018-06-01 14:45:00')
+INSERT INTO APPOINTMENTS VALUES('3', 'loki', 'Összetett konty','2018-06-01 12:00:00', 4000, '2018-06-01 15:30:00', '2018-06-01 17:30:00')
+INSERT INTO APPOINTMENTS VALUES('4', 'loki', 'Összetett konty','2018-06-01 12:00:00', 4000, '2018-06-02 15:30:00', '2018-06-02 17:30:00')
+INSERT INTO APPOINTMENTS VALUES('5','uhrindam', 'Férfi hajvágás', '2018-06-01 12:00:00', 1500, '2018-06-03 12:00:00', '2018-06-03 12:30:00')
+INSERT INTO APPOINTMENTS VALUES('6','uhrindam', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-03 12:30:00', '2018-06-03 12:45:00')
+INSERT INTO APPOINTMENTS VALUES('7','pokemberfanboy', 'Szakáll vágás', '2018-06-01 12:00:00', 1000, '2018-06-03 13:00:00', '2018-06-03 13:15:00')

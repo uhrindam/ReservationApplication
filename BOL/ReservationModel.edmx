@@ -9,14 +9,13 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="NickName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="ReservationDate" Type="datetime" />
           <Property Name="CurrentPrice" Type="int" />
-          <Property Name="StartingPont" Type="datetime" />
-          <Property Name="EndingPoint" Type="datetime" />
-          <Property Name="IsNotDeleted" Type="bit" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
         </EntityType>
         <EntityType Name="CATEGORIES">
           <Key>
@@ -83,14 +82,13 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="NickName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReservationDate" Type="DateTime" Precision="3" />
           <Property Name="CurrentPrice" Type="Int32" />
-          <Property Name="StartingPont" Type="DateTime" Precision="3" />
-          <Property Name="EndingPoint" Type="DateTime" Precision="3" />
-          <Property Name="IsNotDeleted" Type="Boolean" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="CATEGORIES" Relationship="Self.FK_APP_CategoryName" FromRole="APPOINTMENTS" ToRole="CATEGORIES" />
           <NavigationProperty Name="USERS" Relationship="Self.FK_APP_NickName" FromRole="APPOINTMENTS" ToRole="USERS" />
         </EntityType>
@@ -166,9 +164,8 @@
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="ReservationDate" ColumnName="ReservationDate" />
                 <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
-                <ScalarProperty Name="StartingPont" ColumnName="StartingPont" />
-                <ScalarProperty Name="EndingPoint" ColumnName="EndingPoint" />
-                <ScalarProperty Name="IsNotDeleted" ColumnName="IsNotDeleted" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
