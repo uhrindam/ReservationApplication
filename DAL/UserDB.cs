@@ -16,16 +16,7 @@ namespace DAL
 
         public USERS GetByID(string NickName)
         {
-            try
-            {
-                return Db.USERS.First(x => x.NickName == NickName);
-            }
-            catch (Exception)
-            {
-                while (Db.Database.Connection.State != System.Data.ConnectionState.Closed) { }
-                Db = new ReservationDBEntities();
-                return Db.USERS.First(x => x.NickName == NickName);
-            }
+            return Db.USERS.First(x => x.NickName == NickName);
         }
 
         public void Insert(USERS user)

@@ -5,12 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-    function ConfirmDelete() {
-        return confirm('Biztos hogy ki szeretnéd törölni az időpontot?');
-    }
-</script>
-
 @{
     var m = TempData["userappointments"] as List<BOL.APPOINTMENTS>;
 
@@ -43,7 +37,7 @@
 }
 
 <br />
-<h2>@m.First().USERS.FullName (@m.First().NickName) időpontjai</h2>
+<h2>@User.Identity.Name időpontjai</h2>
 <br />
 
 <div class="alert alert-dismissible alert-success">
@@ -96,7 +90,8 @@
                 <td>
                     @if (item.StartDate > DateTime.Now.AddHours(1))
                     {
-                        @Html.ActionLink("Törlés", "Delete", new { id = item.ID }, new { onclick = "return ConfirmDelete()" })
+                        @Html.ActionLink("Törlés", "Index", new { id = item.ID }, new { @class = "btn btn-outline-success element", @data_toggle = "modal", @data_target = "#confirmdelete", @data_id = item.ID })
+
                     }
                 </td>
             </tr>
@@ -114,47 +109,92 @@ else
 
 <br />
 
-<table class="table table-hover">
-    <tr class="table-active">
-        <th>
-            @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
-        </th>
-        <th>
-            @Html.ActionLink("Foglalás dátuma", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
-        </th>
-        <th>
-            @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
-        </th>
-        <th>
-            @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
-        </th>
-        <th>
-            @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
-        </th>
-    </tr>
+@Html.Hidden("itemid", "", new { id = "itemid" })
 
-    @foreach (var item in m)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReservationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
+<div class="modal fade" id="confirmdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Törlés megerősítése</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Bezárás"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                Biztos hogy ki szeretnéd törölni az időpontot?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Mégsem</button>
+                <button type="button" class="btn btn-outline-success" id="Delet">Törlés</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.element').click(function (e) {
+            e.preventDefault();
+            $('#confirmdelete').modal('show');
+
+            var id = $(this).data('id');
+            $('#itemid').val(id);
+        });
+
+
+        $('#Delet').click(function () {
+            var id = $('#itemid').val();
+            $.post('@Url.Action("Delete")', { id: id }).then(function () {
+                $('#confirmdelete').modal('hide');
+            });
+        });
+    });
+
+</script>
+
+@if (m.Count > 0)
+{
+    <table class="table table-hover">
+        <tr class="table-active">
+            <th>
+                @Html.ActionLink("Kategória név", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CategoryName", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Foglalás dátuma", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "ReservationDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Foglaláskor aktuális ár", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "CurrentPrice", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Kezdő időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "StartDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
+            <th>
+                @Html.ActionLink("Befejező időpont", "Index", new { SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), SortBy = "EndDate", Page = (ViewBag.Page == null ? "1" : ViewBag.Page) })
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in m)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CATEGORIES.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReservationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
 
 @{
     double TotalPages = ViewBag.TotalPages;

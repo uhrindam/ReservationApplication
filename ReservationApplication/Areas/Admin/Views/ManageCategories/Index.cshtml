@@ -63,19 +63,18 @@
                 @Html.DisplayFor(modelItem => item.ProcessLengthInMunites)
             </td>
             <td>
-                <button type="button" class="btn btn-outline-success" onclick="location.href='@Url.Action("Edit",new { id = item.CategoryName })'">Szerkesztés</button> |
+                <button type="button" class="btn btn-outline-success element" onclick="location.href='@Url.Action("Edit",new { id = item.CategoryName })'">Szerkesztés</button> |
 
-                @*@Html.ActionLink("Szerkesztés", "Edit", new { id = item.CategoryName }) |*@
-
-                <button type="button" class="btn btn-outline-success" data-record-id="@item.CategoryName" data-toggle="modal" data-target="#confirm-delete">Törlés</button>
-
-                @*@Html.ActionLink("Törlés", "Delete", new { id = item.CategoryName }, new { onclick = "return ConfirmDelete()" })*@
+                @Html.ActionLink("Törlés", "Index", new { id = item.CategoryName }, new { @class = "btn btn-outline-success element", @data_toggle = "modal", @data_target = "#confirmdelete", @data_id = item.CategoryName })
             </td>
         </tr>
     }
 </table>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+@Html.Hidden("itemid", "", new { id = "itemid" })
+
+
+<div class="modal fade" id="confirmdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -87,28 +86,51 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Mégsem</button>
-                <button type="button" class="btn btn-outline-success" onclick="location.href='@Url.Action("Delete",new { id =  "" })'">Törlés</button>
-                @*<button type="button" class="btn btn-outline-success btn-ok">Törlés</button>*@
+                <button type="button" class="btn btn-outline-success" id="Delet">Törlés</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $('#confirm-delete').on('click', '.btn-ok', function (e) {
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.element').click(function (e) {
+            e.preventDefault();
+            $('#confirmdelete').modal('show');
 
-        var $modalDiv = $(e.delegateTarget);
-        var id = $(this).data('recordId');
+            var id = $(this).data('id');
+            $('#itemid').val(id);
+        });
 
-        $modalDiv.addClass('loading');
-        $.post('/Delete/' + id).then(function () {
-            $modalDiv.modal('hide').removeClass('loading');
+
+        $('#Delet').click(function () {
+            var id = $('#itemid').val();
+            $.post('@Url.Action("Delete")', { id: id }).then(function () {
+                $('#confirmdelete').modal('hide');
+            });
         });
     });
-    $('#confirm-delete').on('show.bs.modal', function (e) {
-        var data = $(e.relatedTarget).data();
-        $('.btn-ok', this).data('recordId', data.recordId);
-    });
+
+</script>
+
+<script>
+    function AjaxGoodRedirect(urlAction) {
+        $.ajax({
+            type: "POST",
+            url: urlAction,
+            data: {},
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (returndata) {
+                if (returndata.ok)
+                    window.location = returndata.newurl;
+                else
+                    window.alert(returndata.message);
+
+            }
+        }
+        );
+    }
 </script>
 
 @{

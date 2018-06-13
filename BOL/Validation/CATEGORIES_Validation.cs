@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace BOL
 {
-    public class UniqueCategoryNameAttribute : ValidationAttribute
+
+    public class ProcessLengthAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             ReservationDBEntities db = new ReservationDBEntities();
-            if (db.CATEGORIES.Where(x => x.CategoryName == value.ToString()).Count() != 0)
-                return new ValidationResult("A kategória névnek egyedinek kell lennie!");
+            if ((int)value < 0)
+                return new ValidationResult("A folyamat hosszának nagyobbnak kell lennie 0-nál.");
+            if ((int)value > 480)
+                return new ValidationResult("A folyamat hossza nem lehet nagyobb 480 percnél.");
             return ValidationResult.Success;
         }
     }
@@ -22,7 +25,6 @@ namespace BOL
     public class CATEGORIES_Validation
     {
         [Required]
-        [UniqueCategoryName]
         [Display(Name = "Kategóia név")]
         public string CategoryName { get; set; }
 
@@ -31,6 +33,7 @@ namespace BOL
         public Nullable<int> Price { get; set; }
 
         [Required]
+        [ProcessLengthAttribute]
         [Display(Name = "A folyamat hossza percben")]
         public Nullable<int> ProcessLengthInMunites { get; set; }
     }

@@ -4,11 +4,11 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int i = 0;
 }
 
 @if (TempData["Message"] != null)
 {
+
     <div class="alert alert-dismissible alert-danger">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         @TempData["Message"].ToString()
@@ -26,58 +26,56 @@
 
 <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
 
+<h2>Időpont foglalása</h2>
+
 @(Html.Kendo().Scheduler<ReservationApplication.Areas.User.Models.SchedulerReservations>()
-                        .Name("scheduler")
-                        .Date(DateTime.Now)
-                        .StartTime(new DateTime(2018, 6, 13, 9, 00, 00))
-                        .EndTime(new DateTime(2018, 6, 13, 17, 00, 00))
-                        .Height(600)
-                        .Footer(false)
-                        .Timezone("Etc/UTC")
-                        .AllDaySlot(false)
+            .Name("scheduler")
+            .Date(DateTime.Now)
+            .StartTime(new DateTime(2018, 6, 13, 9, 00, 00))
+            .EndTime(new DateTime(2018, 6, 13, 17, 00, 00))
+            .Height(600)
+            .Footer(false)
+            .Timezone("Etc/UTC")
+            .AllDaySlot(false)
 
-                        //.MinorTickCount(5)
+            .MinorTickCount(3)
 
-                        .Views(views =>
-                        {
-                            views.WeekView();
-                        })
+            .Views(views =>
+            {
+                views.WeekView();
+            })
 
 
-                        .Editable(e =>
-                        {
-                            e.Move(false);
-                            e.Update(false);
-                            e.Resize(false);
-                            e.Destroy(false);
-                            e.TemplateId("editor");
-                        })
+            .Editable(e =>
+            {
+                e.Move(false);
+                e.Update(false);
+                e.Resize(false);
+                e.Destroy(false);
+                e.TemplateId("editor");
+            })
 
-                        .DataSource(ds => ds
-                            .Batch(false)
-                            .Model(m =>
-                            {
-                                m.Id(f => f.TaskID);
-                                m.Field(f => f.OwnerID).DefaultValue(1);
-                            })
-                            .Read(read => read.Action("Read", "BookAnAppointment"))
-                            .Create(read => read.Action("Create", "BookAnAppointment"))
-                            .Destroy(read => read.Action("Destroy", "BookAnAppointment"))
-                            .Update(read => read.Action("Update", "BookAnAppointment")))
-
-                        .BindTo(Model)
+            .DataSource(ds => ds
+                .Events(events => events.Error("RedirectPage"))
+                .Batch(false)
+                .Model(m =>
+                {
+                    m.Id(f => f.TaskID);
+                    m.Field(f => f.OwnerID).DefaultValue(1);
+                })
+                .Read(read => read.Action("Read", "BookAnAppointment"))
+                .Create(read => read.Action("Create", "BookAnAppointment")))
+            .BindTo(Model)
 )
 
 <script type="text/javascript">
-    //set current to the "en-GB" culture script
     kendo.culture("hu-HU");
 </script>
 
-<script>
-    function selected() {
-        var e = document.getElementById("lista");
-        var strUser = e.options[e.selectedIndex].text;
-    }
+<script id="RedirectPage" type="text/javascript">
+    RedirectPage = function (args) {
+        document.location.href = "BookAnAppointment";
+    };
 </script>
 
 <div id="editor" hidden="hidden" title="Időpont foglalása" type="text/x-kendo-template">
@@ -93,18 +91,8 @@
 
             @foreach (var item in ViewBag.Categories)
             {
-                if (i == 0)
-                {
-                    <option style="background-color:red" selected="selected" value="@item.CategoryName">@item.CategoryName, @item.Price asd, @item.ProcessLengthInMunites perc</option>
-                    i++;
-                }
-                else
-                {
-                    <option style="background-color:red" value="@item.CategoryName">@item.CategoryName, @item.Price forint, @item.ProcessLengthInMunites perc</option>
-
-                }
+                <option style="background-color:red" value="@item.CategoryName">@item.CategoryName, @item.Price forint, @item.ProcessLengthInMunites perc</option>
             }
-            @i  = 0;
         </select>
     </div>
 </div>
@@ -114,3 +102,34 @@
         width: 350px;
     }
 </style>
+
+<br />
+
+<div class="card-columns">
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Foglalás</div>
+        <div class="card-body">
+            Egy időpont lefoglalásához kattints duplán a kívánt idősávra, majd a kategória kiválasztása
+            után a rendszer autómatikusan megjeleníti a foglalást a táblázatban.
+            <br /><br /><br />
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Lehetőségek</div>
+        <div class="card-body">
+            Ahhoz, hogy a foglalásod érvényes legyen, a foglalás során ki kell választanod egy kategóriát,
+            valamint egy, már más által lefoglalt időpontot nem fedhet az általad foglalt időpont. Ezen felül
+            csak olyan időpontot választhatsz ki, amely még nem következett be.
+        </div>
+    </div>
+
+    <div class="card border-success mb-3" style="max-width: 30rem;">
+        <div class="card-header">Törlés</div>
+        <div class="card-body">
+            Ha egy már lefoglalt időpontot törölni szeretnél, akkor erre lehetőséged van a felhasználói fiókod
+            "Időpontok áttekintése" részénél.
+            <br /><br /><br /><br />
+        </div>
+    </div>
+</div>

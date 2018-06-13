@@ -215,8 +215,8 @@
     <Content Include="ImageSlider\engine1\ws-ctrl-bootstrap.eot" />
     <Content Include="ImageSlider\engine1\ws-ctrl-bootstrap.ttf" />
     <Content Include="ImageSlider\engine1\ws-ctrl-bootstrap.woff" />
-    <Content Include="Areas\Admin\Views\ManageAppointments\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ManageCategories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCategories\Edit.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -247,7 +247,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ListUsersController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ManageAppointmentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageCategoriesController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Common\Controllers\HomeController.cs" />

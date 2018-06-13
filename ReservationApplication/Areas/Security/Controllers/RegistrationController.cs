@@ -32,7 +32,8 @@ namespace ReservationApplication.Areas.Security
                 if (ModelState.IsValid)
                 {
                     objBs.Insert(user);
-                    return RedirectToAction("Index","Login", new { afterRegistration = "A regisztráció sikeres!" } );
+                    return RedirectToAction("Index", "Login", new { afterRegistration = "A regisztráció sikeres!" });
+
                 }
                 return View("Index");
             }

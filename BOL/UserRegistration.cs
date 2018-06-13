@@ -12,10 +12,14 @@ namespace BOL
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            ReservationDBEntities db = new ReservationDBEntities();
-            if (db.USERS.Where(x => x.EmailAddress == value.ToString()).Count() != 0)
-                return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
-            return ValidationResult.Success;
+            if(value != null)
+            {
+                ReservationDBEntities db = new ReservationDBEntities();
+                if (db.USERS.Where(x => x.EmailAddress == value.ToString()).Count() != 0)
+                    return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
+                return ValidationResult.Success;
+            }
+            return null;
         }
     }
 

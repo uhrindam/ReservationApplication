@@ -11,7 +11,7 @@ namespace BOL
     public class USERS_Validation
     {
         [Required]
-        [UniqueCategoryName]
+        [UniqueNickName]
         [Display(Name = "Felhasználó név")]
         public string NickName { get; set; }
 

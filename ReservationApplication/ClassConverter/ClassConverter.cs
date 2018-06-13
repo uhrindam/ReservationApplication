@@ -55,7 +55,7 @@ namespace ReservationApplication.ClassConverter
         private static int CalculateAppointmentID()
         {
             AppointmentBL bl = new AppointmentBL();
-            return bl.GetAll().Last().ID +1;
+            return bl.GetAll().Last().ID + 1;
         }
 
         public static SchedulerReservations DataConverter(SchedulerReservations appointment)
@@ -69,12 +69,12 @@ namespace ReservationApplication.ClassConverter
 
             UserBL userBL = new UserBL();
             appointment.Title = userBL.GetByID(appointment.NickName).FullName + ", " + categ.CategoryName;
-            appointment.Description = appointment.Title  + ", " + appointment.CurrentPrice + ", " + appointment.ReservationDate;
+            appointment.Description = appointment.Title + ", " + appointment.CurrentPrice + ", " + appointment.ReservationDate;
 
             return appointment;
         }
 
-        public static bool CheckForOverlapping(SchedulerReservations appointment)
+        private static bool CheckForOverlapping(SchedulerReservations appointment)
         {
             AppointmentBL appBL = new AppointmentBL();
             List<BOL.APPOINTMENTS> newappointments = appBL.GetAll().Where(x => x.StartDate > DateTime.Now).ToList();
@@ -86,12 +86,29 @@ namespace ReservationApplication.ClassConverter
             return true;
         }
 
-        public static bool ReservationValidation(SchedulerReservations appointment)
+        private static bool ValidateAppointmentEnd(SchedulerReservations appointment)
+        {
+            CategoryBL categBL = new CategoryBL();
+            return appointment.Start.AddMinutes((int)categBL.GetByID(appointment.CategoryName).ProcessLengthInMunites).Hour <= 17;
+        }
+
+        private static bool ValidateAppointmentStart(SchedulerReservations appointment)
+        {
+            CategoryBL categBL = new CategoryBL();
+            return appointment.Start >= DateTime.Now;
+        }
+
+        public static string ReservationValidation(SchedulerReservations appointment)
         {
             if (appointment.CategoryName == null)
-                return false;
-
-            return CheckForOverlapping(appointment);
+                return "A foglalás sikertelen: Nincs kivaálsztva kategória!";
+            if (!CheckForOverlapping(appointment))
+                return "A foglalás sikertelen: Két időpont nem fedheti egymást!";
+            if (!ValidateAppointmentEnd(appointment))
+                return "A foglalás sikertelen: Az időpont nem fejeződhet be a munkaidő lejárta után!";
+            if (!ValidateAppointmentStart(appointment))
+                return "A foglalás sikertelen: Az aktuális időpontnál régebbi időpontot nem lehet lefoglalni!";
+            return String.Empty;
         }
     }
 }

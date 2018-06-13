@@ -13,19 +13,19 @@ namespace ReservationApplication.Areas.Admin.Controllers
     {
         const double DATAPERPAGE = 10;
         private CategoryBL objBS;
+        List<CATEGORIES> categories;
 
         public ManageCategoriesController()
         {
             objBS = new CategoryBL();
+            categories = objBS.GetAll().ToList(); ;
         }
 
-        // GET: Admin/ManageCategories
-        public ActionResult Index(string SortOrder, string SortBy, string Page, string afterCreateCageory)
+        private void PrepareData(string SortOrder, string SortBy, string Page, string afterCreateCageory)
         {
             ViewBag.SortOrder = SortOrder;
             ViewBag.SortBy = SortBy;
             ViewBag.afterCreateCageory = afterCreateCageory;
-            var categories = objBS.GetAll();
 
             #region Sort
             switch (SortBy)
@@ -79,29 +79,61 @@ namespace ReservationApplication.Areas.Admin.Controllers
             int page = int.Parse(Page == null ? "1" : Page);
             ViewBag.Page = page;
 
-            categories = categories.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE);
+            categories = categories.Skip((page - 1) * (int)DATAPERPAGE).Take((int)DATAPERPAGE).ToList();
 
+        }
+
+        // GET: Admin/ManageCategories
+        public ActionResult Index(string SortOrder, string SortBy, string Page, string afterCreateCageory)
+        {
+            PrepareData( SortOrder,  SortBy,  Page, afterCreateCageory);
             return View(categories);
         }
 
+        [HttpPost]
         public ActionResult Delete(string id)
         {
+            var categories = objBS.GetAll();
             try
             {
                 objBS.Delete(id);
-                TempData["MsgS"] = "A törlés sikeres";
-                return RedirectToAction("Index");
+                //TempData["MsgS"] = "A törlés sikeres";
+                PrepareData(null,null,null, "A törlés sikeres");
+
+                return Json(new { ok = true, newurl = Url.Action("Index") });
+
+                //return View("Index", categories);
             }
             catch
             {
-                TempData["MsgU"] = "A törlés sikertelen";
-                return RedirectToAction("Index");
+                PrepareData(null, null, null, "A törlés sikertelen");
+                return View("Index", categories);
             }
         }
 
         public ActionResult Edit(string id)
         {
-            return null;
+            ViewBag.Category = objBS.GetByID(id);
+            return View("Edit");
+        }
+
+        public ActionResult EditCategory(CATEGORIES category, string originalName)
+        {
+            //try
+            //{
+                CATEGORIES originalCategory = objBS.GetByID(originalName);
+                originalCategory.Price = category.Price;
+                originalCategory.ProcessLengthInMunites = category.ProcessLengthInMunites;
+
+                objBS.Update(originalCategory);
+
+                return RedirectToAction("Index", new { afterCreateCageory = "A kiválaszott kategória sikeresen szerkesztve!" });
+            //}
+            //catch
+            //{
+            //    TempData["Msg"] = "A kategória szerkesztése sikertelen";
+            //    return RedirectToAction("Edit", new { id = originalName });
+            //}
         }
 
         public ActionResult Create()

@@ -49,43 +49,20 @@ namespace ReservationApplication.Areas.User.Controllers
 
         public virtual JsonResult Read([DataSourceRequest] DataSourceRequest request)
         {
-            //reservations.Add(
-            //new SchedulerReservations
-            //{
-            //    TaskID = 2,
-            //    Title = "Fast and furious 6",
-            //    Start = new DateTime(2018, 6, 13, 17, 00, 00),
-            //    End = new DateTime(2018, 6, 13, 18, 30, 00)
-            //});
-            //reservations.Add(
-            //new SchedulerReservations
-            //{
-            //    TaskID = 1,
-            //    Title = "The Internship",
-            //    Start = new DateTime(2018, 6, 13, 14, 00, 00),
-            //    End = new DateTime(2018, 6, 13, 15, 30, 00)
-            //});
-            //reservations.Add(
-            //new SchedulerReservations
-            //{
-            //    TaskID = 3,
-            //    Title = "The Perks of Being a Wallflower",
-            //    Start = new DateTime(2018, 6, 13, 16, 00, 00),
-            //    End = new DateTime(2018, 6, 13, 17, 30, 00)
-            //});
             reservations = ClassConverter.ClassConverter.ConvertToSchedulerReservation(appBL.GetAll().ToList());
 
             return Json(reservations.ToDataSourceResult(request));
         }
 
-        public virtual JsonResult Create([DataSourceRequest] DataSourceRequest request, SchedulerReservations appointment)
+        public virtual ActionResult Create([DataSourceRequest] DataSourceRequest request, SchedulerReservations appointment)
         {
             if (ModelState.IsValid)
             {
                 appointment.NickName = User.Identity.Name;
                 appointment = ClassConverter.ClassConverter.DataConverter(appointment);
 
-                if(ClassConverter.ClassConverter.ReservationValidation(appointment) )
+                string message = ClassConverter.ClassConverter.ReservationValidation(appointment);
+                if (message == string.Empty)
                 {
                     reservations.Add(appointment);
                     ClassConverter.ClassConverter.ConvertToInsertAppointment(appointment);
@@ -93,8 +70,9 @@ namespace ReservationApplication.Areas.User.Controllers
                 else
                 {
                     appointment = null;
-                    TempData["Message"] = "A foglalás sikertelen.";
-                    return Json(reservations.ToDataSourceResult(request));
+                    TempData["Message"] = message;
+                    ModelState.AddModelError("redirectNeeded", "The user needs to be redirected");
+                    return Json(reservations.ToDataSourceResult(request,ModelState));
                 }
 
             }
