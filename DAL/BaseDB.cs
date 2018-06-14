@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+    /// <summary>
+    /// This is a base class for the other DB classes. (In this way, easier to handle the database connection.)
+    /// </summary>
     public abstract class BaseDB
     {
-        ReservationDBEntities db;
+        ReservationAPPModel db;
 
         public BaseDB()
         {
-            db = new ReservationDBEntities();
+            db = new ReservationAPPModel();
         }
 
-        public ReservationDBEntities Db { get => db; set => db = value; }
+        public ReservationAPPModel Db { get => db; set => db = value; }
     }
 }

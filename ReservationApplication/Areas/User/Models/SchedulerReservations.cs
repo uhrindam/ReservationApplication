@@ -8,6 +8,9 @@ using System.Web;
 
 namespace ReservationApplication.Areas.User.Models
 {
+    /// <summary>
+    /// this class is implementing the ISchedulerEvent, which is required to use the Kendo Scheduler.
+    /// </summary>
     public class SchedulerReservations : ISchedulerEvent
     {
         public int TaskID { get; set; }

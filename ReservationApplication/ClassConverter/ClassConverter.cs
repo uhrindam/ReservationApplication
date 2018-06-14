@@ -10,6 +10,11 @@ namespace ReservationApplication.ClassConverter
 {
     public class ClassConverter
     {
+        /// <summary>
+        /// This method is convert the APPOINTMENTS list to SchedulerReservations list, to display them in Kendo Scheduler.
+        /// </summary>
+        /// <param name="appointments"></param>
+        /// <returns></returns>
         public static List<SchedulerReservations> ConvertToSchedulerReservation(List<APPOINTMENTS> appointments)
         {
             List<SchedulerReservations> reservations = new List<SchedulerReservations>();
@@ -32,6 +37,11 @@ namespace ReservationApplication.ClassConverter
             return reservations;
         }
 
+        /// <summary>
+        /// This method convert a SchedulerReservations object to an APPOINTMENTS object.
+        /// </summary>
+        /// <param name="reservation"></param>
+        /// <returns></returns>
         private static APPOINTMENTS CreateAPPOINTMENTSobject(SchedulerReservations reservation)
         {
             return new APPOINTMENTS()
@@ -52,12 +62,21 @@ namespace ReservationApplication.ClassConverter
             bl.Insert(CreateAPPOINTMENTSobject(reservation));
         }
 
+        /// <summary>
+        /// This method calculate the next appointment ID
+        /// </summary>
+        /// <returns></returns>
         private static int CalculateAppointmentID()
         {
             AppointmentBL bl = new AppointmentBL();
             return bl.GetAll().Last().ID + 1;
         }
 
+        /// <summary>
+        /// I use this method when a user wants to create a new appointment.
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
         public static SchedulerReservations DataConverter(SchedulerReservations appointment)
         {
             CategoryBL categBL = new CategoryBL();
@@ -74,6 +93,11 @@ namespace ReservationApplication.ClassConverter
             return appointment;
         }
 
+        /// <summary>
+        /// I check the overlapping in this method. (Two appointments cant cover each other.)
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
         private static bool CheckForOverlapping(SchedulerReservations appointment)
         {
             AppointmentBL appBL = new AppointmentBL();
@@ -86,18 +110,33 @@ namespace ReservationApplication.ClassConverter
             return true;
         }
 
+        /// <summary>
+        /// I check the new appointments end date here. (An appointment end date cant be later then 17 hour.)
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
         private static bool ValidateAppointmentEnd(SchedulerReservations appointment)
         {
             CategoryBL categBL = new CategoryBL();
             return appointment.Start.AddMinutes((int)categBL.GetByID(appointment.CategoryName).ProcessLengthInMunites).Hour <= 17;
         }
 
+        /// <summary>
+        /// I check the new appointments start date here. (An appointment start date cant be earlier then the actual date.)
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
         private static bool ValidateAppointmentStart(SchedulerReservations appointment)
         {
             CategoryBL categBL = new CategoryBL();
             return appointment.Start >= DateTime.Now;
         }
 
+        /// <summary>
+        /// I validate here the new appointment, and give message from the possible mistakes.
+        /// </summary>
+        /// <param name="appointment"></param>
+        /// <returns></returns>
         public static string ReservationValidation(SchedulerReservations appointment)
         {
             if (appointment.CategoryName == null)

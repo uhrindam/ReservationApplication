@@ -7,7 +7,7 @@
 
 @{
     var m = TempData["userappointments"] as List<BOL.APPOINTMENTS>;
-
+    @*I take the active appointments on client side. *@
     int howmanyActive = 0;
     List<BOL.APPOINTMENTS> activeAppointments = new List<BOL.APPOINTMENTS>();
     foreach (var item in m)
@@ -20,6 +20,7 @@
     }
 }
 
+@*  I give informations from the deleting.*@
 @if (TempData["MsgU"] != null)
 {
     <div class="alert alert-dismissible alert-danger">
@@ -46,6 +47,7 @@
 
 <br />
 
+@*if The user has active appointments, then I show them in a table, else I giva a link to the booking page.*@
 @if (howmanyActive > 0)
 {
     <table class="table table-hover">
@@ -110,7 +112,7 @@ else
 <br />
 
 @Html.Hidden("itemid", "", new { id = "itemid" })
-
+@*I use this modal to confirm of the deleting.*@
 <div class="modal fade" id="confirmdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -7,6 +7,9 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.User.Controllers
 {
+    /// <summary>
+    /// The users could get information from their former appointments, and they can delete active appointments here.
+    /// </summary>
     [Authorize(Roles = "A, U")]
     public class AppointmentsHistoryController : Controller
     {
@@ -18,6 +21,13 @@ namespace ReservationApplication.Areas.User.Controllers
             objBS = new UserBL();
         }
 
+        /// <summary>
+        /// The sorting, and the pagenition is the same as that was in ListUsers for example.
+        /// </summary>
+        /// <param name="SortOrder"></param>
+        /// <param name="SortBy"></param>
+        /// <param name="Page"></param>
+        /// <returns></returns>
         // GET: User/AppointmentsHistory
         public ActionResult Index(string SortOrder, string SortBy, string Page)
         {
@@ -111,6 +121,11 @@ namespace ReservationApplication.Areas.User.Controllers
             return View();
         }
 
+        /// <summary>
+        /// THe user can delete active appointments.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Delete(string id)
         {
             AppointmentBL appointmentBL = new AppointmentBL();

@@ -24,6 +24,11 @@ namespace ReservationApplication.Areas.Security
             return View();
         }
 
+        /// <summary>
+        /// If The user given all of the data correctly, the registration is complete. After that, the the user can login in the login page.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(UserRegistration user)
         {

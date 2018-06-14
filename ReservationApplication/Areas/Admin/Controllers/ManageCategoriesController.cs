@@ -8,6 +8,9 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// This controller prepares the data to ManageCategories.
+    /// </summary>
     [Authorize(Roles = "A")]
     public class ManageCategoriesController : Controller
     {
@@ -21,6 +24,13 @@ namespace ReservationApplication.Areas.Admin.Controllers
             categories = objBS.GetAll().ToList(); ;
         }
 
+        /// <summary>
+        /// This method is preper the data to the views. Here I sorting, and "paging" the data.
+        /// </summary>
+        /// <param name="SortOrder"></param>
+        /// <param name="SortBy"></param>
+        /// <param name="Page"></param>
+        /// <param name="afterCreateCageory"></param>
         private void PrepareData(string SortOrder, string SortBy, string Page, string afterCreateCageory)
         {
             ViewBag.SortOrder = SortOrder;
@@ -75,6 +85,7 @@ namespace ReservationApplication.Areas.Admin.Controllers
             }
             #endregion
 
+            //I have to count to number of total pages, based on the element\page. After that, I count the number of actuall page, and I take the right elements of the list.
             ViewBag.TotalPages = Math.Ceiling(categories.Count() / DATAPERPAGE);
             int page = int.Parse(Page == null ? "1" : Page);
             ViewBag.Page = page;
@@ -86,10 +97,16 @@ namespace ReservationApplication.Areas.Admin.Controllers
         // GET: Admin/ManageCategories
         public ActionResult Index(string SortOrder, string SortBy, string Page, string afterCreateCageory)
         {
-            PrepareData( SortOrder,  SortBy,  Page, afterCreateCageory);
+            PrepareData(SortOrder, SortBy, Page, afterCreateCageory);
             return View(categories);
         }
 
+        /// <summary>
+        /// When the (admin) user wants to delete a category, this method will do that.
+        /// In the view, I use ajax call, so after delete, I have to redirect to page in different way.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Delete(string id)
         {
@@ -97,17 +114,14 @@ namespace ReservationApplication.Areas.Admin.Controllers
             try
             {
                 objBS.Delete(id);
-                //TempData["MsgS"] = "A törlés sikeres";
-                PrepareData(null,null,null, "A törlés sikeres");
+                PrepareData(null, null, null, "A törlés sikeres");
 
                 return Json(new { ok = true, newurl = Url.Action("Index") });
-
-                //return View("Index", categories);
             }
             catch
             {
                 PrepareData(null, null, null, "A törlés sikertelen");
-                return View("Index", categories);
+                return Json(new { ok = true, newurl = Url.Action("Index") });
             }
         }
 
@@ -117,10 +131,17 @@ namespace ReservationApplication.Areas.Admin.Controllers
             return View("Edit");
         }
 
+        /// <summary>
+        /// This method provides the cagetory editing. I take the original object from the DB, and change the propertys based on the given paramters.
+        /// After that I update the DB with the new object, and I redirecting to the Index action.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="originalName"></param>
+        /// <returns></returns>
         public ActionResult EditCategory(CATEGORIES category, string originalName)
         {
-            //try
-            //{
+            try
+            {
                 CATEGORIES originalCategory = objBS.GetByID(originalName);
                 originalCategory.Price = category.Price;
                 originalCategory.ProcessLengthInMunites = category.ProcessLengthInMunites;
@@ -128,12 +149,15 @@ namespace ReservationApplication.Areas.Admin.Controllers
                 objBS.Update(originalCategory);
 
                 return RedirectToAction("Index", new { afterCreateCageory = "A kiválaszott kategória sikeresen szerkesztve!" });
-            //}
-            //catch
-            //{
-            //    TempData["Msg"] = "A kategória szerkesztése sikertelen";
-            //    return RedirectToAction("Edit", new { id = originalName });
-            //}
+            }
+            catch
+            {
+                TempData["Msg"] = "A kategória szerkesztése sikertelen";
+                return RedirectToAction("Edit", new
+                {
+                    id = originalName
+                });
+            }
         }
 
         public ActionResult Create()
@@ -141,6 +165,11 @@ namespace ReservationApplication.Areas.Admin.Controllers
             return View("Create");
         }
 
+        /// <summary>
+        /// If the model is valid, the user can create a new category.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public ActionResult CreateCategory(CATEGORIES category)
         {
             try

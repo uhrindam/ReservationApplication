@@ -28,6 +28,8 @@
 
 <h2>Időpont foglalása</h2>
 
+@*I use the Kendo Scheduler to create and show appointments. This Scheduler is very customizable.
+    Here i set the start,, and end business hours, I change the editable settings, and give methodnames to the different events.*@
 @(Html.Kendo().Scheduler<ReservationApplication.Areas.User.Models.SchedulerReservations>()
             .Name("scheduler")
             .Date(DateTime.Now)
@@ -68,16 +70,19 @@
             .BindTo(Model)
 )
 
+@*I use this script to get the Hungarian language support. *@
 <script type="text/javascript">
     kendo.culture("hu-HU");
 </script>
 
+@*I use this script to redirect when the reservation is wrong.*@
 <script id="RedirectPage" type="text/javascript">
     RedirectPage = function (args) {
         document.location.href = "BookAnAppointment";
     };
 </script>
 
+@*I use this template when a user wants to create an appointment. In this I use a dropdown list, which display all of the category names.*@
 <div id="editor" hidden="hidden" title="Időpont foglalása" type="text/x-kendo-template">
     <div class="k-edit-field" data-container-for="title">
         <h2>Időpont foglalása</h2>
@@ -97,6 +102,7 @@
     </div>
 </div>
 
+@*In the original width of the dropdown list, the text doesn't fit in one row, so i changed this.*@
 <style>
     .catSel {
         width: 350px;

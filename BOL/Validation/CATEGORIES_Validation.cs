@@ -1,4 +1,5 @@
 ﻿using BOL;
+using BOL.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,20 +9,9 @@ using System.Threading.Tasks;
 
 namespace BOL
 {
-
-    public class ProcessLengthAttribute : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            ReservationDBEntities db = new ReservationDBEntities();
-            if ((int)value < 0)
-                return new ValidationResult("A folyamat hosszának nagyobbnak kell lennie 0-nál.");
-            if ((int)value > 480)
-                return new ValidationResult("A folyamat hossza nem lehet nagyobb 480 percnél.");
-            return ValidationResult.Success;
-        }
-    }
-
+    /// <summary>
+    /// In this class I give attributes to the properties, for the valdation.
+    /// </summary>
     public class CATEGORIES_Validation
     {
         [Required]

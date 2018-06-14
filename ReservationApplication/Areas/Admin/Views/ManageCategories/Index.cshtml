@@ -73,7 +73,7 @@
 
 @Html.Hidden("itemid", "", new { id = "itemid" })
 
-
+@*I use this modal, to confirm of the deleting.*@
 <div class="modal fade" id="confirmdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -92,6 +92,7 @@
     </div>
 </div>
 
+@*This script is helping me to get the selected item's ID.*@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.element').click(function (e) {
@@ -124,9 +125,6 @@
             success: function (returndata) {
                 if (returndata.ok)
                     window.location = returndata.newurl;
-                else
-                    window.alert(returndata.message);
-
             }
         }
         );

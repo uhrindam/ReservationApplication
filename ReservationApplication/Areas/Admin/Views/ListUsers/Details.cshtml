@@ -78,4 +78,4 @@
 </ul>
 <br />
 
-@Html.ActionLink("Vissza az időpontokhoz", "Back", new { ViewBag.ISortOrder, ViewBag.ISortBy, ViewBag.IPage })
+<button type="button" class="btn btn-outline-success element" onclick="location.href='@Url.Action("Back",new { ViewBag.ISortOrder, ViewBag.ISortBy, ViewBag.IPage })'">Vissza az időpontokhoz</button>

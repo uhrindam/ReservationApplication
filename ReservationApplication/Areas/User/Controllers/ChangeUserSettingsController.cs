@@ -25,6 +25,11 @@ namespace ReservationApplication.Areas.User.Controllers
             return View();
         }
 
+        /// <summary>
+        /// When a user wants to change her\him settings (email address and password), I use the UserRegistration class, to validate the given paramters.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Change(UserRegistration user)
         {

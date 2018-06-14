@@ -1,4 +1,5 @@
 ﻿using BOL;
+using BOL.ValidationAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace BOL
 {
+    /// <summary>
+    /// In this class I give attributes to the properties, for the valdation.
+    /// </summary>
     public class USERS_Validation
     {
         [Required]

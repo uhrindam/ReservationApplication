@@ -8,6 +8,9 @@ using System.Web.Security;
 
 namespace BLL
 {
+    /// <summary>
+    /// I use this provider to decide the role of the authenticated user. This will help me, to show the appropriate menu items.
+    /// </summary>
     class ReservationRoleProvider : RoleProvider
     {
         UserDB db;

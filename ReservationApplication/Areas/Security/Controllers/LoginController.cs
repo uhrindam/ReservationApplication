@@ -19,6 +19,12 @@ namespace ReservationApplication.Areas.Security.Controllers
             return View();
         }
 
+        /// <summary>
+        /// If the user is exist in the database, then the login is clompeletd.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="stayin"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult SignIn(USERS user, bool stayin)
         {
@@ -34,6 +40,10 @@ namespace ReservationApplication.Areas.Security.Controllers
             }
         }
 
+        /// <summary>
+        /// This option is displayd only when there is an authenticated user.
+        /// </summary>
+        /// <returns></returns>
         public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();

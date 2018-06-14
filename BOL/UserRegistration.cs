@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BOL.ValidationAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,36 +9,14 @@ using System.Web.ModelBinding;
 
 namespace BOL
 {
-    public class UniqueEmailAttribute: ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            if(value != null)
-            {
-                ReservationDBEntities db = new ReservationDBEntities();
-                if (db.USERS.Where(x => x.EmailAddress == value.ToString()).Count() != 0)
-                    return new ValidationResult("Egy emailcímmel csak egyszer regisztrálhatsz!");
-                return ValidationResult.Success;
-            }
-            return null;
-        }
-    }
 
-    public class UniqueNickNameAttribute : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            ReservationDBEntities db = new ReservationDBEntities();
-            if (db.USERS.Where(x => x.NickName == value.ToString()).Count() != 0)
-                return new ValidationResult("A felhasználónévnek egyedinek kell lennie!");
-            return ValidationResult.Success;
-        }
-    }
+
+
 
     public class UserRegistration
     {
         [Display(Name = "Felhasználónév")]
-        [UniqueEmail]
+        [UniqueNickName]
         [Required]
         public string NickName { get; set; }
 

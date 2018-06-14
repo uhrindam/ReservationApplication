@@ -8,6 +8,9 @@ using System.Web.Security;
 
 namespace BLL
 {
+    /// <summary>
+    /// I use this provider to authenticate the user.
+    /// </summary>
     class ReservationMembershipProvider : MembershipProvider
     {
         UserDB db;

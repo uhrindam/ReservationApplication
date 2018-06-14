@@ -11,6 +11,7 @@
     <AssemblyName>BOL</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -68,30 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APPOINTMENTS.cs">
-      <DependentUpon>ReservationModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CATEGORIES.cs">
-      <DependentUpon>ReservationModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReservationModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReservationModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReservationModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReservationModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ReservationModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ReservationModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="USERS.cs">
-      <DependentUpon>ReservationModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="APPOINTMENTS.cs" />
+    <Compile Include="CATEGORIES.cs" />
+    <Compile Include="ReservationAPPModel.cs" />
+    <Compile Include="USERS.cs" />
+    <Compile Include="ValidationAttributes\ProcessLengthAttribute.cs" />
+    <Compile Include="ValidationAttributes\UniqueEmailAttribute.cs" />
+    <Compile Include="ValidationAttributes\UniqueNickNameAttribute.cs" />
     <Compile Include="Validation\CATEGORIES_Validation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRegistration.cs" />
@@ -113,30 +96,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReservationModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReservationModel.Context.cs</LastGenOutput>
-      <DependentUpon>ReservationModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="ReservationModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ReservationModel.edmx</DependentUpon>
-      <LastGenOutput>ReservationModel.cs</LastGenOutput>
-    </Content>
     <Content Include="SQL script\script.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ReservationModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ReservationModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="ReservationModel.edmx.diagram">
-      <DependentUpon>ReservationModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

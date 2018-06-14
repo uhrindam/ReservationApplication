@@ -28,6 +28,11 @@ namespace BLL
             return objDB.GetByID(NickName);
         }
 
+        /// <summary>
+        /// When a user is registrating, I use a helper class to validate the given data. This method get a helper object, 
+        /// what I have to transformate to real USERS object.
+        /// </summary>
+        /// <param name="user"></param>
         public void Insert(UserRegistration user)
         {
             USERS validateduser = new USERS();
@@ -52,6 +57,11 @@ namespace BLL
             objDB.Update(user);
         }
 
+        /// <summary>
+        /// This method provide me the encoding of the password. I use this when a user is registrating, and when a user is signing in.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string Hash(string input)
         {
             var hash = (new SHA1Managed()).ComputeHash(Encoding.UTF8.GetBytes(input));

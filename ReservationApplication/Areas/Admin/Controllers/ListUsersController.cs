@@ -8,9 +8,15 @@ using System.Web.Mvc;
 
 namespace ReservationApplication.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// This controller prepares the data to ListUsers.
+    /// </summary>
     [Authorize(Roles = "A")]
     public class ListUsersController : Controller
     {
+        /// <summary>
+        /// This number is the limit of the presented users in one page.
+        /// </summary>
         const double DATAPERPAGE = 10;
         private UserBL objBS;
 
@@ -19,6 +25,13 @@ namespace ReservationApplication.Areas.Admin.Controllers
             objBS = new UserBL();
         }
 
+        /// <summary>
+        /// This method is prepars the data in right sorting, and in the right page.
+        /// </summary>
+        /// <param name="SortOrder">The direction of the sorting</param>
+        /// <param name="SortBy">The property of the sorting</param>
+        /// <param name="Page">The number of the actual page</param>
+        /// <returns></returns>
         // GET: Admin/ListUsers
         public ActionResult Index(string SortOrder, string SortBy, string Page)
         {
@@ -87,6 +100,7 @@ namespace ReservationApplication.Areas.Admin.Controllers
             }
             #endregion
 
+            //I have to count to number of total pages, based on the element\page. After that, I count the number of actuall page, and I take the right elements of the list.
             ViewBag.TotalPages = Math.Ceiling(users.Count() / DATAPERPAGE);
             int page = int.Parse(Page == null ? "1" : Page);
             ViewBag.Page = page;
@@ -96,6 +110,19 @@ namespace ReservationApplication.Areas.Admin.Controllers
             return View(users);
         }
 
+        /// <summary>
+        /// This method provide the data to the Dateils page, which is shows the users appointemnts. 
+        /// In this page, the users can go back to the index page. When the user is want to go back to the index page,
+        /// the parameters will be the same. (SortOrder, Sortby...)
+        /// </summary>
+        /// <param name="NickName"></param>
+        /// <param name="SortOrder"></param>
+        /// <param name="SortBy"></param>
+        /// <param name="Page"></param>
+        /// <param name="ISortOrder"></param>
+        /// <param name="ISortBy"></param>
+        /// <param name="IPage"></param>
+        /// <returns></returns>
         public ActionResult Details(string NickName, string SortOrder, string SortBy, string Page, string ISortOrder, string ISortBy, int IPage)
         {
             ViewBag.NickName = NickName;
@@ -180,7 +207,6 @@ namespace ReservationApplication.Areas.Admin.Controllers
                     break;
             }
             #endregion
-
 
             ViewBag.TotalPages = Math.Ceiling(appointments.Count() / DATAPERPAGE);
             int page = int.Parse(Page == null ? "1" : Page);
